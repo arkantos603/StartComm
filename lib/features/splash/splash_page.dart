@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
+import 'package:startcomm/common/widgets/multi_text_button.dart';
 import 'package:startcomm/common/widgets/primary_button.dart';
 
 class SplashPage extends StatelessWidget {
@@ -55,13 +58,25 @@ class SplashPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          Text('Já possui uma conta? Entrar',
-          style: AppTextsStyles.smallText.copyWith(
+
+          MultiTextButton(
+            onPressed: () => log('tap'),
+            children: [        
+          Text(
+            'Já possui uma conta?',
+            style: AppTextsStyles.smallText.copyWith(
             color: AppColors.white,
           ),
+        ),
+          Text(
+            ' Entrar',
+            style: AppTextsStyles.smallText.copyWith(
+            color: AppColors.blue,
           ),
-          const SizedBox(height: 50.0),
-
+        ),              
+        ],          
+         ),           
+          const SizedBox(height: 30.0),
           ],
         ),
       ),
