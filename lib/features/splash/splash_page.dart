@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
+import 'package:startcomm/common/widgets/primary_button.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -32,9 +33,9 @@ class SplashPage extends StatelessWidget {
                       color: AppColors.white,
                     ),
                   ),
-                  const SizedBox(height: 40), // Espaço entre os textos
+                  const SizedBox(height: 40),
                   Text(
-                    'Gestão financeira para pequenos negócios ao seu alcance.',
+                    'Gestão financeira para pequenos comercios ao seu alcance.',
                     style: AppTextsStyles.smallText.copyWith(
                       color: AppColors.white,
                     ),
@@ -43,48 +44,24 @@ class SplashPage extends StatelessWidget {
                 ],
               ),
             ),
-            Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Ação do botão "Começar"
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.white, // Fundo white
-                    foregroundColor: AppColors.purple, // Cor do texto
-                  ),
-                  child: Text(
-                    'Começar',
-                    style: TextStyle(color: AppColors.purple),
-                  ),
-                ),
-                const SizedBox(height: 20), // Espaço entre o botão e o texto
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Já possui uma conta? ',
-                      style: AppTextsStyles.smallText.copyWith(
-                        color: AppColors.white,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // Ação ao clicar em "Entrar"
-                      },
-                      child: Text(
-                        'Entrar.',
-                        style: AppTextsStyles.smallText.copyWith(
-                          color: AppColors.blue,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24.0),
-              ],
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 32.0,
+              vertical: 16.0,
             ),
+            child: PrimaryButton(
+            text: 'Começar',
+            onPressed: () {},
+            ),
+          ),
+          const SizedBox(height: 16.0),
+          Text('Já possui uma conta? Entrar',
+          style: AppTextsStyles.smallText.copyWith(
+            color: AppColors.white,
+          ),
+          ),
+          const SizedBox(height: 50.0),
+
           ],
         ),
       ),

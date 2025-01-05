@@ -3,6 +3,11 @@ import 'dart:ui';
 class AppColors {
   AppColors._();
 
+  static const List<Color> greyGradient = [
+    Color(0xFFB5B5B5),
+    Color(0xFF7F7F7F),
+  ];
+
   static const Color luzverde1 = Color(0xFF63B5AF);
   static const Color luzverde2 = Color(0xFF438883);
   static const Color white = Color(0xFFFFFFFF);
