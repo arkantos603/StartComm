@@ -8,6 +8,11 @@ class AppColors {
     Color(0xFF7F7F7F),
   ];
 
+  static const List<Color> greenGradient = [
+    Color(0xFF63B5AF),
+    Color(0xFF438883),
+  ];
+
   static const Color luzverde1 = Color(0xFF63B5AF);
   static const Color luzverde2 = Color(0xFF438883);
   static const Color white = Color(0xFFFFFFFF);
