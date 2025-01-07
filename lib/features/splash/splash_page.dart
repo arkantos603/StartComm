@@ -4,6 +4,7 @@ import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
 import 'package:startcomm/common/widgets/multi_text_button.dart';
 import 'package:startcomm/common/widgets/primary_button.dart';
+import 'package:startcomm/features/sign_up/sign_up_page.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -53,7 +54,14 @@ class SplashPage extends StatelessWidget {
             ),
             child: PrimaryButton(
             text: 'Começar',
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const  SignUpPage(),
+                  ),
+              );
+            },
             ),
           ),
           const SizedBox(height: 16.0),
