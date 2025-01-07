@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
+import 'package:startcomm/common/widgets/custon_text_widgets.dart';
 import 'package:startcomm/common/widgets/multi_text_button.dart';
 import 'package:startcomm/common/widgets/secondary_button.dart';
 
@@ -21,7 +22,7 @@ class SignUpPage extends StatelessWidget {
             ),
           ),
           Text(
-            'O seu Dinheiro!',
+            'O seu Comercio!',
             textAlign: TextAlign.center,
             style: AppTextsStyles.mediumText36.copyWith(
               color: AppColors.luzverde2,
@@ -34,8 +35,15 @@ class SignUpPage extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-          TextFormField(),
-          const TextField(),
+          Form(
+            child: Column(
+              children: const [
+                CustonTextFormField(
+                  labelText: 'Seu Nome',
+                  hintText: 'Ely Miranda...',
+                ),
+              ],
+            )),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 32.0,
@@ -70,3 +78,4 @@ class SignUpPage extends StatelessWidget {
     );
   }
 }
+
