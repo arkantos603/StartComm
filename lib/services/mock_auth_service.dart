@@ -2,10 +2,28 @@ import 'package:startcomm/common/models/user_model.dart';
 import 'package:startcomm/services/auth_services/auth_services.dart';
 
 class MockAuthService implements AuthService{
-  // @override
-  // Future signIn() {
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future <UserModel> signIn( {
+    required String email,
+    required String password,
+  }) async {
+    await Future.delayed(const Duration(seconds: 2));
+        try{
+          if(password.startsWith('123')) {
+            throw Exception();
+          }
+          return UserModel(
+            id: email.hashCode.toString(),
+            email: email,
+            password: password,
+          );
+        } catch (e) {
+          if (password.startsWith('123')) {
+            throw 'Erro ao logar, tente novamente.';
+          }
+          throw 'Não foi possível realizar login no momento, tente mais tarde.';
+        }
+  }
 
   // @override
   // Future<dynamic> signIn({required String email, required String password}) {

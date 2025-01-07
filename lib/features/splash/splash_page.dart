@@ -1,7 +1,7 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
+import 'package:startcomm/common/constants/routs.dart';
 import 'package:startcomm/common/widgets/multi_text_button.dart';
 import 'package:startcomm/common/widgets/primary_button.dart';
 import 'package:startcomm/features/sign_up/sign_up_page.dart';
@@ -67,7 +67,7 @@ class SplashPage extends StatelessWidget {
           const SizedBox(height: 16.0),
 
           MultiTextButton(
-            onPressed: () => log('tap'),
+            onPressed: () => Navigator.pushNamed(context, NamedRoute.signIn),
             children: [        
           Text(
             'Já possui uma conta?',
