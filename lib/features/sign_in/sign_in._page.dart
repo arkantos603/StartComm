@@ -12,7 +12,7 @@ import 'package:startcomm/common/widgets/secondary_button.dart';
 import 'package:startcomm/common/utils/validator.dart';
 import 'package:startcomm/features/sign_in/sign_in_controller.dart';
 import 'package:startcomm/features/sign_in/sign_in_state.dart';
-import 'package:startcomm/services/mock_auth_service.dart';
+import 'package:startcomm/locator.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -25,7 +25,7 @@ class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _controller = SignInController(MockAuthService());
+  final _controller = locator.get<SignInController>();
 
   @override
   void dispose() {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "902922762297",
+    "project_id": "startcomm-3b506",
+    "storage_bucket": "startcomm-3b506.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902922762297:android:5b1e0a820b2fddfd97b5e8",
+        "android_client_info": {
+          "package_name": "com.startcomm.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCj1cKhI0-rgbPwZ3XR_zYcq5gHYKOONdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

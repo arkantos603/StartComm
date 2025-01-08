@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
+import 'package:startcomm/common/constants/routs.dart';
 // import 'package:startcomm/common/widgets/custom_bottom_sheet.dart';
 import 'package:startcomm/common/widgets/custom_circular_progress_indicator.dart';
 import 'package:startcomm/common/widgets/custom_text_form_field.dart';
@@ -11,7 +12,7 @@ import 'package:startcomm/common/widgets/secondary_button.dart';
 import 'package:startcomm/common/utils/validator.dart';
 import 'package:startcomm/features/sign_up/sign_up_controller.dart';
 import 'package:startcomm/features/sign_up/sign_up_state.dart';
-import 'package:startcomm/services/mock_auth_service.dart';
+import 'package:startcomm/locator.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -26,7 +27,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _empresaController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _controller = SignUpController(MockAuthService());
+  final _controller = locator.get<SignUpController>();
 
   @override
   void dispose() {
@@ -168,7 +169,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           const SizedBox(height: 16.0),
           MultiTextButton(
-            onPressed: () => log('tap'),
+            onPressed: () => Navigator.popAndPushNamed(context, NamedRoute.signIn),
             children: [
               Text(
                 'Já possui uma conta?',
