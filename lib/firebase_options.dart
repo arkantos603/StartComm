@@ -65,4 +65,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'startcomm-3b506.firebasestorage.app',
     iosBundleId: 'com.example.startcomm',
   );
+
 }
