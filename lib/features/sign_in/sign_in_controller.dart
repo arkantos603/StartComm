@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:startcomm/features/sign_in/sign_in_state.dart';
-import 'package:startcomm/services/auth_services/auth_services.dart';
+import 'package:startcomm/services/auth_services.dart';
 
 class SignInController extends ChangeNotifier {
   final AuthService _service;

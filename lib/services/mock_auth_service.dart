@@ -1,5 +1,5 @@
 import 'package:startcomm/common/models/user_model.dart';
-import 'package:startcomm/services/auth_services/auth_services.dart';
+import 'package:startcomm/services/auth_services.dart';
 
 class MockAuthService implements AuthService{
   @override

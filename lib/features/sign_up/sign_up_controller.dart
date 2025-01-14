@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:startcomm/services/auth_services/auth_services.dart';
+import 'package:startcomm/services/auth_services.dart';
 import 'sign_up_state.dart';
 
 class SignUpController extends ChangeNotifier {
