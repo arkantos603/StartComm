@@ -5,7 +5,12 @@ import 'package:startcomm/services/secure_storage.dart';
 
 class SignUpController extends ChangeNotifier {
   final AuthService _service;
-  SignUpController(this._service);
+  final SecureStorageService _secureStorage;
+
+  SignUpController(
+  this._service, 
+  this._secureStorage
+  );
 
   SignUpState _state = SignUpStateInitial();
 
@@ -22,7 +27,6 @@ class SignUpController extends ChangeNotifier {
     required String email,
     required String password,
   }) async {
-    final secureStorage = SecureStorageService();
     _changeState(SignUpStateLoading());
 
     try {
@@ -33,10 +37,7 @@ class SignUpController extends ChangeNotifier {
         password: password,
       );
       if (user.id != null) {
-        await secureStorage.write(
-          key: 'CURRENT_USER', 
-          value: user.toJson()
-        );
+        await _secureStorage.write(key: 'CURRENT_USER', value: user.toJson());
         _changeState(SignUpStateSuccess());
       } else {
         throw Exception();
