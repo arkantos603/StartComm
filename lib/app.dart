@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/routs.dart';
+import 'package:startcomm/features/home/home_page.dart';
 import 'package:startcomm/features/sign_in/sign_in._page.dart';
 import 'package:startcomm/features/sign_up/sign_up_page.dart';
 import 'package:startcomm/features/splash/splash_page.dart';
@@ -15,6 +16,7 @@ class App extends StatelessWidget {
         NamedRoute.splash: (context) => const SplashPage(),
         NamedRoute.signUp: (context) => const SignUpPage(),
         NamedRoute.signIn: (context) => const SignInPage(),
+        NamedRoute.home: (context) => const HomePage(),
       },
     );
   }

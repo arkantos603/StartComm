@@ -12,12 +12,11 @@ abstract class AuthService {
     required String email,
     required String password,
   });
+
+  Future<void> signOut();
 }
-//   Future<void> signOut();
 
 //   Future<String> userToken();
 
 //   Future<bool> forgotPassword(String email);
 // }
-
-// Future signIn(),

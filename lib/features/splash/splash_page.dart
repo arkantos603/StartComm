@@ -6,6 +6,7 @@ import 'package:startcomm/common/widgets/multi_text_button.dart';
 import 'package:startcomm/common/widgets/primary_button.dart';
 import 'package:startcomm/features/sign_up/sign_up_page.dart';
 import 'package:startcomm/features/splash/splash_controller.dart';
+// import 'package:startcomm/features/splash/splash_state.dart';
 import 'package:startcomm/locator.dart';
 
 class SplashPage extends StatefulWidget {
@@ -17,13 +18,24 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   final _splashController = locator.get<SplashController>();
+
   @override
   void initState() {
     super.initState();
     _splashController.isUserLogged();
-    _splashController.addListener(() {
-      
-    });
+    // _splashController.addListener(() {
+    //   if (_splashController.state is SplashStateSuccess) {
+    //     Navigator.pushReplacementNamed(
+    //       context,
+    //       NamedRoute.home
+    //       );
+    //   } else{
+    //     Navigator.pushReplacementNamed(
+    //       context,
+    //       NamedRoute.signIn
+    //       );
+    //   }
+    // });
   }
 
   @override
