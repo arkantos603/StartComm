@@ -5,9 +5,32 @@ import 'package:startcomm/common/constants/routs.dart';
 import 'package:startcomm/common/widgets/multi_text_button.dart';
 import 'package:startcomm/common/widgets/primary_button.dart';
 import 'package:startcomm/features/sign_up/sign_up_page.dart';
+import 'package:startcomm/features/splash/splash_controller.dart';
+import 'package:startcomm/locator.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
+
+  @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  final _splashController = locator.get<SplashController>();
+  @override
+  void initState() {
+    super.initState();
+    _splashController.isUserLogged();
+    _splashController.addListener(() {
+      
+    });
+  }
+
+  @override
+  void dispose() {
+    _splashController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +41,7 @@ class SplashPage extends StatelessWidget {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [ 
+            colors: [
               AppColors.luzverde1,
               AppColors.luzverde2,
             ],
@@ -31,7 +54,7 @@ class SplashPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'StartComm', 
+                    'StartComm',
                     style: AppTextsStyles.bigText.copyWith(
                       color: AppColors.white,
                     ),
@@ -47,43 +70,42 @@ class SplashPage extends StatelessWidget {
                 ],
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32.0,
-              vertical: 16.0,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32.0,
+                vertical: 16.0,
+              ),
+              child: PrimaryButton(
+                text: 'Começar',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignUpPage(),
+                    ),
+                  );
+                },
+              ),
             ),
-            child: PrimaryButton(
-            text: 'Começar',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const  SignUpPage(),
+            const SizedBox(height: 16.0),
+            MultiTextButton(
+              onPressed: () => Navigator.pushNamed(context, NamedRoute.signIn),
+              children: [
+                Text(
+                  'Já possui uma conta?',
+                  style: AppTextsStyles.smallText.copyWith(
+                    color: AppColors.white,
                   ),
-              );
-            },
+                ),
+                Text(
+                  ' Entrar',
+                  style: AppTextsStyles.smallText.copyWith(
+                    color: AppColors.blue,
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 16.0),
-
-          MultiTextButton(
-            onPressed: () => Navigator.pushNamed(context, NamedRoute.signIn),
-            children: [        
-          Text(
-            'Já possui uma conta?',
-            style: AppTextsStyles.smallText.copyWith(
-            color: AppColors.white,
-          ),
-        ),
-          Text(
-            ' Entrar',
-            style: AppTextsStyles.smallText.copyWith(
-            color: AppColors.blue,
-          ),
-        ),              
-        ],          
-         ),           
-          const SizedBox(height: 30.0),
+            const SizedBox(height: 30.0),
           ],
         ),
       ),

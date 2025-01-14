@@ -43,14 +43,14 @@ class FirebaseAuthService implements AuthService {
         email: email,
         password: password,
       );
-      if (result.user != null) {
+      if (_auth.currentUser != null) {
         await result.user!.updateDisplayName(name);
         await result.user!.updateDisplayName(empresa); //TALVEZ
         return UserModel(
-          name: result.user!.displayName,
-          empresa: result.user!.displayName,
-          email: result.user!.email,
-          id: result.user!.uid,
+          name: _auth.currentUser?.displayName,
+          empresa: _auth.currentUser?.displayName,
+          email: _auth.currentUser?.email,
+          id: _auth.currentUser?.uid,
         );
       } else {
         throw Exception();
