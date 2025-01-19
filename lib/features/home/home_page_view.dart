@@ -49,8 +49,8 @@ class _HomePageViewState extends State<HomePageView> {
           ),
           CustomBottomAppBarItem(
             label: 'caixa',
-            primaryIcon: Icons.shopping_cart,
-            secondaryIcon: Icons.shopping_cart_outlined,
+            primaryIcon: Icons.add_shopping_cart,
+            secondaryIcon: Icons.add_shopping_cart_outlined,
             onPressed: () => pageController.jumpToPage(1),
           ),
           CustomBottomAppBarItem(

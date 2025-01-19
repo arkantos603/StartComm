@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                             ),
                             child: Icon(
-                              Icons.more_horiz,
+                              Icons.info_outline,
                               color: AppColors.white,
                               size: iconSize,
                             ),
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        'R\$ 1.000,00',
+                        'R\$ 1.500,00',
                         style: AppTextsStyles.mediumText20.copyWith(
                           color: AppColors.white,
                           fontSize: AppTextsStyles.mediumText20.fontSize! * textScaleFactor,
@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                             child: Icon(
-                              Icons.more_horiz,
+                              Icons.settings,
                               color: AppColors.white,
                               size: iconSize,
                             ),
@@ -261,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                   child: ListView.builder(
                     physics: const BouncingScrollPhysics(),
                     padding: EdgeInsets.zero,
-                    itemCount: 4,
+                    itemCount: 5,
                     itemBuilder: (context, index) {
                       final color =
                           index % 2 == 0 ? AppColors.income : AppColors.outcome;
