@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:startcomm/common/constants/app_texts.dart';
 import 'package:startcomm/common/constants/routs.dart';
+import 'package:startcomm/features/caixa/caixa_page.dart';
+import 'package:startcomm/features/relatorio/relatorio_page.dart';
 import 'package:startcomm/services/secure_storage.dart';
+import 'package:startcomm/common/constants/app_colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,26 +17,57 @@ class _HomePageState extends State<HomePage> {
   final _secureStorage = const SecureStorageService();
   int _currentPageIndex = 0;
 
+  static const List<Widget> _widgetOptions = <Widget>[
+    Center(
+      child: Text('Home Page'),
+    ),
+    CaixaPage(),
+    RelatorioPage(),
+  ];
+
+  // void _onItemTapped(int index) {
+  //   setState(() {
+  //     _currentPageIndex = index;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
+        centerTitle: true,
+        title: Text(
+          'Home Page',
+          style: AppTextsStyles.mediumText20.copyWith(
+            color: AppColors.white,
+          ),
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: AppColors.greenGradient,
+            ),
+          ),
+        ),
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: AppColors.greenGradient,
+                ),
               ),
               child: Text(
                 'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+                style: AppTextsStyles.mediumText30.copyWith(
+                  color: AppColors.white,
                 ),
               ),
             ),
@@ -44,8 +79,8 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.bar_chart),
-              title: const Text('Relatórios'),
+              leading: const Icon(Icons.shopping_bag),
+              title: const Text('Meus produtos'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -59,7 +94,7 @@ class _HomePageState extends State<HomePage> {
             ),
             ListTile(
               leading: const Icon(Icons.attach_money),
-              title: const Text('Verificar ou adicionar gastos'),
+              title: const Text('Verificar ou adicionar despesas'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -88,100 +123,41 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: <Widget>[
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('Home Page'),
-            ],
+      body: Center(
+        child: _widgetOptions.elementAt(_currentPageIndex),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: AppColors.greenGradient,
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.notifications_sharp),
-                  title: Text('Notification 1'),
-                  subtitle: Text('This is a notification'),
-                ),
-              ),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.notifications_sharp),
-                  title: Text('Notification 2'),
-                  subtitle: Text('This is a notification'),
-                ),
-              ),
-            ],
-          ),
-        ),
-        ListView.builder(
-          reverse: true,
-          itemCount: 2,
-          itemBuilder: (BuildContext context, int index) {
-            if (index == 0) {
-              return Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  margin: const EdgeInsets.all(8.0),
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Text(
-                    'Hello',
-                    style: theme.textTheme.bodyLarge!
-                        .copyWith(color: theme.colorScheme.onPrimary),
-                  ),
-                ),
-              );
-            }
-            return Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: const EdgeInsets.all(8.0),
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.primary,
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Text(
-                  'Hi!',
-                  style: theme.textTheme.bodyLarge!
-                      .copyWith(color: theme.colorScheme.onPrimary),
-                ),
-              ),
-            );
+        child: NavigationBar(
+          onDestinationSelected: (int index) {
+            setState(() {
+              _currentPageIndex = index;
+            });
           },
+          indicatorColor: AppColors.luzverde1,
+          selectedIndex: _currentPageIndex,
+          destinations: const <Widget>[
+            NavigationDestination(
+              selectedIcon: Icon(Icons.home),
+              icon: Icon(Icons.home_outlined),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.shopping_cart),
+              label: 'Gerenciar Caixa',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.bar_chart),
+              label: 'Relatórios',
+            ),
+          ],
         ),
-      ][_currentPageIndex],
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            _currentPageIndex = index;
-          });
-        },
-        indicatorColor: Colors.amber,
-        selectedIndex: _currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.notifications_sharp),
-            label: 'Notifications',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.messenger_sharp),
-            label: 'Messages',
-          ),
-        ],
       ),
     );
   }

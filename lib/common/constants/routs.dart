@@ -5,10 +5,11 @@ class NamedRoute {
   static const String signUp = "/sign_up";
   static const String signIn = "/sign_in";
   static const String home = "/home";
-  static const String stats = "/stats";
-  static const String wallet = "/wallet";
+  static const String caixa = "/caixa";
+  static const String relatorio = "/relatorio";
   static const String profile = "/profile";
-  static const String transaction = "/transaction";
-  static const String forgotPassword = "/forgot-password";
-  static const String checkYourEmail = "/check-your-email";
+  static const String produtos = "/produtos";
+  static const String lucros = "/lucros";
+  static const String despesas = "/despesas";
+  static const String mapa = "/mapa";
 }
