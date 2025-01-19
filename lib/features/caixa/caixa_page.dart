@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
-class CaixaPage extends StatelessWidget {
+class CaixaPage extends StatefulWidget {
   const CaixaPage({super.key});
 
   @override
+  State<CaixaPage> createState() => _CaixaPageState();
+}
+
+class _CaixaPageState extends State<CaixaPage> 
+    with AutomaticKeepAliveClientMixin<CaixaPage> {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gerenciar Caixa'),
-      ),
+    super.build(context);
+    return const Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text('Gerenciar Caixa'),
-          ],
-        ),
+        child: Text('Caixa'),
       ),
     );
   }

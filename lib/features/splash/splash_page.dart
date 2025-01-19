@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
 import 'package:startcomm/common/constants/routs.dart';
+import 'package:startcomm/common/extensions/sizes.dart';
 import 'package:startcomm/common/widgets/multi_text_button.dart';
 import 'package:startcomm/common/widgets/primary_button.dart';
 import 'package:startcomm/features/sign_up/sign_up_page.dart';
@@ -22,6 +23,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => Sizes.init(context));
     _splashController.isUserLogged();
     // _splashController.addListener(() {
     //   if (_splashController.state is SplashStateSuccess) {

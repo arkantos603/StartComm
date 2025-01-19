@@ -1,10 +1,8 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
-import 'package:startcomm/common/constants/routs.dart';
-import 'package:startcomm/features/caixa/caixa_page.dart';
-import 'package:startcomm/features/relatorio/relatorio_page.dart';
-import 'package:startcomm/services/secure_storage.dart';
-import 'package:startcomm/common/constants/app_colors.dart';
+import '../../common/constants/app_colors.dart';
+import '../../common/extensions/sizes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,150 +12,295 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final _secureStorage = const SecureStorageService();
-  int _currentPageIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    Center(
-      child: Text('Home Page'),
-    ),
-    CaixaPage(),
-    RelatorioPage(),
-  ];
-
-  // void _onItemTapped(int index) {
-  //   setState(() {
-  //     _currentPageIndex = index;
-  //   });
-  // }
-
+  double get textScaleFactor =>
+      MediaQuery.of(context).size.width < 360 ? 0.7 : 1.0;
+  double get iconSize => MediaQuery.of(context).size.width < 360 ? 16.0 : 24.0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Home Page',
-          style: AppTextsStyles.mediumText20.copyWith(
-            color: AppColors.white,
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: AppColors.greenGradient,
-            ),
-          ),
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
+      body: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            child: Container(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: AppColors.greenGradient,
                 ),
-              ),
-              child: Text(
-                'Menu',
-                style: AppTextsStyles.mediumText30.copyWith(
-                  color: AppColors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.elliptical(500, 30),
+                  bottomRight: Radius.elliptical(500, 30),
                 ),
               ),
+              height: 287.h,
             ),
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Perfil'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.shopping_bag),
-              title: const Text('Meus produtos'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.show_chart),
-              title: const Text('Verificar lucros'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.attach_money),
-              title: const Text('Verificar ou adicionar despesas'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.map),
-              title: const Text('Mapa de distribuidores'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text('Deslogar'),
-              onTap: () {
-                _secureStorage.deleteOne(key: 'CURRENT_USER').then(
-                      (_) =>                 
-                          Navigator.popAndPushNamed(
-                          // ignore: use_build_context_synchronously
-                            context,
-                            NamedRoute.splash
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_currentPageIndex),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: AppColors.greenGradient,
           ),
-        ),
-        child: NavigationBar(
-          onDestinationSelected: (int index) {
-            setState(() {
-              _currentPageIndex = index;
-            });
-          },
-          indicatorColor: AppColors.luzverde1,
-          selectedIndex: _currentPageIndex,
-          destinations: const <Widget>[
-            NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
-              label: 'Home',
+          Positioned(
+              left: 24.0,
+              right: 24.0,
+              top: 74.h,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text(
+                  'Olá',
+                    style: AppTextsStyles.smallText.copyWith(
+                    color: AppColors.white,
+                    fontSize: AppTextsStyles.smallText.fontSize! * textScaleFactor,
+                      ),
+                    ),
+                    Text(
+                  'Empresa',
+                    style: AppTextsStyles.mediumText20.copyWith(
+                    color: AppColors.white,
+                    fontSize: AppTextsStyles.mediumText20.fontSize! * textScaleFactor,
+                      ),
+                    ),
+                    ],
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.h,
+                      horizontal: 8.w,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius:
+                        const BorderRadius.all(Radius.circular(4.0)),
+                        color: AppColors.white.withAlpha((0.06 * 255).toInt()),
+                    ),
+                    child: Stack(
+                      alignment: const AlignmentDirectional(0.5, -0.5),
+                      children: [
+                        const Icon(
+                          Icons.person_outline_rounded,
+                          color: AppColors.white,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )),
+          Positioned(
+            left: 24.w,
+            right: 24.w,
+            top: 155.h,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.w,
+                vertical: 32.h,
+              ),
+              decoration: const BoxDecoration(
+                color: AppColors.darkGreen,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16.0),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                    'Saldo em conta',
+                    style: AppTextsStyles.mediumText16w600.copyWith(
+                      color: AppColors.white,
+                      fontSize: AppTextsStyles.mediumText16w600.fontSize! * textScaleFactor,
+                    ),
+                  ),
+                  Text(
+                    'R\$ 1.000,00',
+                    style: AppTextsStyles.mediumText30.copyWith(
+                      color: AppColors.white,
+                      fontSize: AppTextsStyles.mediumText30.fontSize! * textScaleFactor,
+                    ),
+                  ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () => log('options'),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            vertical: 8.h,
+                            horizontal: 8.w,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                            color: AppColors.white.withAlpha((0.06 * 255).toInt()),
+                          ),
+                          child: PopupMenuButton(
+                            padding: EdgeInsets.zero,
+                            child: const Icon(
+                              Icons.bar_chart_outlined,
+                              color: AppColors.white,
+                            ),
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                height: 24.0,
+                                child: Text("Item 1"),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 36.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                    color: AppColors.white.withAlpha((0.1 * 255).toInt()),
+                    borderRadius: const BorderRadius.all(Radius.circular(16.0)
+                    ),
+                            ),
+                            child: Icon(
+                              Icons.more_horiz,
+                              color: AppColors.white,
+                              size: iconSize,
+                            ),
+                          ),
+                          const SizedBox(width: 4.0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                        'Receitas',
+                        style: AppTextsStyles.mediumText16w500.copyWith(
+                          color: AppColors.white,
+                          fontSize: AppTextsStyles.mediumText16w500.fontSize! * textScaleFactor,
+                        ),
+                      ),
+                      Text(
+                        'R\$ 1.000,00',
+                        style: AppTextsStyles.mediumText20.copyWith(
+                          color: AppColors.white,
+                          fontSize: AppTextsStyles.mediumText20.fontSize! * textScaleFactor,
+                        ),
+                      ),
+                            ],
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                    color: AppColors.white.withAlpha((0.1 * 255).toInt()),
+                    borderRadius: const BorderRadius.all(Radius.circular(16.0)
+                    ),
+                  ),
+                            child: Icon(
+                              Icons.more_horiz,
+                              color: AppColors.white,
+                              size: iconSize,
+                            ),
+                          ),
+                          const SizedBox(width: 4.0),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                        'Despesas',
+                        style: AppTextsStyles.mediumText16w500.copyWith(
+                          color: AppColors.white,
+                          fontSize: AppTextsStyles.mediumText16w500.fontSize! * textScaleFactor,
+                        ),
+                      ),
+                      Text(
+                        'R\$ 500,00',
+                        style: AppTextsStyles.mediumText20.copyWith(
+                          color: AppColors.outcome,
+                          fontSize: AppTextsStyles.mediumText20.fontSize! * textScaleFactor,
+                        ),
+                      ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            NavigationDestination(
-              icon: Icon(Icons.shopping_cart),
-              label: 'Gerenciar Caixa',
+          ),
+          Positioned(
+            top: 397.h,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Text(
+                  'Últimas transações',
+                  style: AppTextsStyles.mediumText18,
+                ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      final color =
+                          index % 2 == 0 ? AppColors.income : AppColors.outcome;
+                      final value =
+                          index % 2 == 0 ? "+ \$ 100.00" : "- \$ 100.00";
+                      return ListTile(
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 8.0),
+                        leading: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.antiFlashWhite,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(8.0)),
+                          ),
+                          padding: const EdgeInsets.all(8.0),
+                          child: const Icon(
+                            Icons.monetization_on_outlined,
+                          ),
+                        ),
+                        title: const Text(
+                          'Data da transação',
+                          style: AppTextsStyles.mediumText16w500,
+                        ),
+                        subtitle: const Text(
+                          '1969-07-20',
+                          style: AppTextsStyles.smallText13,
+                        ),
+                        trailing: Text(
+                          value,
+                          style: AppTextsStyles.mediumText18.apply(color: color),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            NavigationDestination(
-              icon: Icon(Icons.bar_chart),
-              label: 'Relatórios',
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
