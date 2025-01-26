@@ -4,6 +4,7 @@ import 'package:startcomm/common/constants/app_texts.dart';
 import 'package:startcomm/common/widgets/custom_circular_progress_indicator.dart';
 import 'package:startcomm/features/home/home_controller.dart';
 import 'package:startcomm/features/home/home_state.dart';
+import 'package:startcomm/features/profile/profile_page.dart';
 import 'package:startcomm/locator.dart';
 import '../../common/constants/app_colors.dart';
 import '../../common/extensions/sizes.dart';
@@ -79,26 +80,33 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 8.h,
-                      horizontal: 8.w,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(4.0)),
-                      color: AppColors.white.withAlpha((0.06 * 255).toInt()),
-                    ),
-                    child: Stack(
-                      alignment: const AlignmentDirectional(0.5, -0.5),
-                      children: [
-                        const Icon(
-                          Icons.person_outline_rounded,
-                          color: AppColors.white,
-                        ),
-                      ],
-                    ),
+                  GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()),
+              );
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 8.h,
+                horizontal: 8.w,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                color: AppColors.white.withAlpha((0.06 * 255).toInt()),
+              ),
+              child: Stack(
+                alignment: const AlignmentDirectional(0.5, -0.5),
+                children: [
+                  const Icon(
+                    Icons.person_outline_rounded,
+                    color: AppColors.white,
                   ),
+                ],
+              ),
+            ),
+          ),
                 ],
               )),
           Positioned(

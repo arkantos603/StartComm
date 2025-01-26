@@ -255,7 +255,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin<Ma
         },
         initialCameraPosition: CameraPosition(
           target: _initialPosition,
-          zoom: 12.0,
+          zoom: 13.0,
         ),
         markers: _markers,
         onTap: _addMarker,
