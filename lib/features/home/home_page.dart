@@ -1,6 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
+import 'package:startcomm/common/widgets/custom_circular_progress_indicator.dart';
+import 'package:startcomm/features/home/home_controller.dart';
+import 'package:startcomm/features/home/home_state.dart';
+import 'package:startcomm/locator.dart';
 import '../../common/constants/app_colors.dart';
 import '../../common/extensions/sizes.dart';
 
@@ -15,6 +19,15 @@ class _HomePageState extends State<HomePage> {
   double get textScaleFactor =>
       MediaQuery.of(context).size.width < 360 ? 0.7 : 1.0;
   double get iconSize => MediaQuery.of(context).size.width < 360 ? 16.0 : 24.0;
+
+  final controller = locator.get<HomeController>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.getAllTransactions();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,20 +61,22 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Text(
-                  'Olá',
-                    style: AppTextsStyles.smallText.copyWith(
-                    color: AppColors.white,
-                    fontSize: AppTextsStyles.smallText.fontSize! * textScaleFactor,
+                      Text(
+                        'Olá',
+                        style: AppTextsStyles.smallText.copyWith(
+                          color: AppColors.white,
+                          fontSize: AppTextsStyles.smallText.fontSize! *
+                              textScaleFactor,
+                        ),
                       ),
-                    ),
-                    Text(
-                  'Empresa',
-                    style: AppTextsStyles.mediumText20.copyWith(
-                    color: AppColors.white,
-                    fontSize: AppTextsStyles.mediumText20.fontSize! * textScaleFactor,
+                      Text(
+                        'Empresa',
+                        style: AppTextsStyles.mediumText20.copyWith(
+                          color: AppColors.white,
+                          fontSize: AppTextsStyles.mediumText20.fontSize! *
+                              textScaleFactor,
+                        ),
                       ),
-                    ),
                     ],
                   ),
                   Container(
@@ -71,8 +86,8 @@ class _HomePageState extends State<HomePage> {
                     ),
                     decoration: BoxDecoration(
                       borderRadius:
-                        const BorderRadius.all(Radius.circular(4.0)),
-                        color: AppColors.white.withAlpha((0.06 * 255).toInt()),
+                          const BorderRadius.all(Radius.circular(4.0)),
+                      color: AppColors.white.withAlpha((0.06 * 255).toInt()),
                     ),
                     child: Stack(
                       alignment: const AlignmentDirectional(0.5, -0.5),
@@ -111,19 +126,22 @@ class _HomePageState extends State<HomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                    'Saldo em conta',
-                    style: AppTextsStyles.mediumText16w600.copyWith(
-                      color: AppColors.white,
-                      fontSize: AppTextsStyles.mediumText16w600.fontSize! * textScaleFactor,
-                    ),
-                  ),
-                  Text(
-                    'R\$ 1.000,00',
-                    style: AppTextsStyles.mediumText30.copyWith(
-                      color: AppColors.white,
-                      fontSize: AppTextsStyles.mediumText30.fontSize! * textScaleFactor,
-                    ),
-                  ),
+                            'Saldo em conta',
+                            style: AppTextsStyles.mediumText16w600.copyWith(
+                              color: AppColors.white,
+                              fontSize:
+                                  AppTextsStyles.mediumText16w600.fontSize! *
+                                      textScaleFactor,
+                            ),
+                          ),
+                          Text(
+                            'R\$ 1.000,00',
+                            style: AppTextsStyles.mediumText30.copyWith(
+                              color: AppColors.white,
+                              fontSize: AppTextsStyles.mediumText30.fontSize! *
+                                  textScaleFactor,
+                            ),
+                          ),
                         ],
                       ),
                       GestureDetector(
@@ -134,8 +152,10 @@ class _HomePageState extends State<HomePage> {
                             horizontal: 8.w,
                           ),
                           decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                            color: AppColors.white.withAlpha((0.06 * 255).toInt()),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(4.0)),
+                            color:
+                                AppColors.white.withAlpha((0.06 * 255).toInt()),
                           ),
                           child: PopupMenuButton(
                             padding: EdgeInsets.zero,
@@ -163,9 +183,10 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             padding: const EdgeInsets.all(4.0),
                             decoration: BoxDecoration(
-                    color: AppColors.white.withAlpha((0.1 * 255).toInt()),
-                    borderRadius: const BorderRadius.all(Radius.circular(16.0)
-                    ),
+                              color: AppColors.white
+                                  .withAlpha((0.1 * 255).toInt()),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16.0)),
                             ),
                             child: Icon(
                               Icons.info_outline,
@@ -178,19 +199,23 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                        'Receitas',
-                        style: AppTextsStyles.mediumText16w500.copyWith(
-                          color: AppColors.white,
-                          fontSize: AppTextsStyles.mediumText16w500.fontSize! * textScaleFactor,
-                        ),
-                      ),
-                      Text(
-                        'R\$ 1.500,00',
-                        style: AppTextsStyles.mediumText20.copyWith(
-                          color: AppColors.white,
-                          fontSize: AppTextsStyles.mediumText20.fontSize! * textScaleFactor,
-                        ),
-                      ),
+                                'Receitas',
+                                style: AppTextsStyles.mediumText16w500.copyWith(
+                                  color: AppColors.white,
+                                  fontSize: AppTextsStyles
+                                          .mediumText16w500.fontSize! *
+                                      textScaleFactor,
+                                ),
+                              ),
+                              Text(
+                                'R\$ 1.500,00',
+                                style: AppTextsStyles.mediumText20.copyWith(
+                                  color: AppColors.white,
+                                  fontSize:
+                                      AppTextsStyles.mediumText20.fontSize! *
+                                          textScaleFactor,
+                                ),
+                              ),
                             ],
                           )
                         ],
@@ -200,10 +225,11 @@ class _HomePageState extends State<HomePage> {
                           Container(
                             padding: const EdgeInsets.all(4.0),
                             decoration: BoxDecoration(
-                    color: AppColors.white.withAlpha((0.1 * 255).toInt()),
-                    borderRadius: const BorderRadius.all(Radius.circular(16.0)
-                    ),
-                  ),
+                              color: AppColors.white
+                                  .withAlpha((0.1 * 255).toInt()),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16.0)),
+                            ),
                             child: Icon(
                               Icons.settings,
                               color: AppColors.white,
@@ -215,19 +241,23 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                        'Despesas',
-                        style: AppTextsStyles.mediumText16w500.copyWith(
-                          color: AppColors.white,
-                          fontSize: AppTextsStyles.mediumText16w500.fontSize! * textScaleFactor,
-                        ),
-                      ),
-                      Text(
-                        'R\$ 500,00',
-                        style: AppTextsStyles.mediumText20.copyWith(
-                          color: AppColors.outcome,
-                          fontSize: AppTextsStyles.mediumText20.fontSize! * textScaleFactor,
-                        ),
-                      ),
+                                'Despesas',
+                                style: AppTextsStyles.mediumText16w500.copyWith(
+                                  color: AppColors.white,
+                                  fontSize: AppTextsStyles
+                                          .mediumText16w500.fontSize! *
+                                      textScaleFactor,
+                                ),
+                              ),
+                              Text(
+                                'R\$ 500,00',
+                                style: AppTextsStyles.mediumText20.copyWith(
+                                  color: AppColors.outcome,
+                                  fontSize:
+                                      AppTextsStyles.mediumText20.fontSize! *
+                                          textScaleFactor,
+                                ),
+                              ),
                             ],
                           )
                         ],
@@ -251,51 +281,74 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: const [
                       Text(
-                  'Últimas transações',
-                  style: AppTextsStyles.mediumText18,
-                ),
+                        'Últimas transações',
+                        style: AppTextsStyles.mediumText18,
+                      ),
                     ],
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    itemCount: 5,
-                    itemBuilder: (context, index) {
-                      final color =
-                          index % 2 == 0 ? AppColors.income : AppColors.outcome;
-                      final value =
-                          index % 2 == 0 ? "+ \$ 100.00" : "- \$ 100.00";
-                      return ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 8.0),
-                        leading: Container(
-                          decoration: const BoxDecoration(
-                            color: AppColors.antiFlashWhite,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)),
-                          ),
-                          padding: const EdgeInsets.all(8.0),
-                          child: const Icon(
-                            Icons.monetization_on_outlined,
-                          ),
-                        ),
-                        title: const Text(
-                          'Data da transação',
-                          style: AppTextsStyles.mediumText16w500,
-                        ),
-                        subtitle: const Text(
-                          '1969-07-20',
-                          style: AppTextsStyles.smallText13,
-                        ),
-                        trailing: Text(
-                          value,
-                          style: AppTextsStyles.mediumText18.apply(color: color),
-                        ),
-                      );
-                    },
-                  ),
+                  child: AnimatedBuilder(
+                      animation: controller,
+                      builder: (context, _) {
+                        if (controller.state is HomeStateLoading) {
+                          return const CustomCircularProgressIndicator(
+                            color: AppColors.green,
+                          );
+                        }
+                        if (controller.state is HomeStateError) {
+                          return const Center(
+                            child: Text('Erro ao carregar transações.'),
+                          );
+                        }
+                        if (controller.transactions.isEmpty) {
+                          return const Center(
+                            child: Text('Não há transações no momento.'),
+                          );
+                        }
+                        return ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          itemCount: controller.transactions.length,
+                          itemBuilder: (context, index) {
+                            final item = controller.transactions[index];
+
+                            final color = item.value.isNegative
+                                ? AppColors.outcome
+                                : AppColors.income;
+                            final value = "\$ ${item.value.toStringAsFixed(2)}";
+                            return ListTile(
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              leading: Container(
+                                decoration: const BoxDecoration(
+                                  color: AppColors.antiFlashWhite,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0)),
+                                ),
+                                padding: const EdgeInsets.all(8.0),
+                                child: const Icon(
+                                  Icons.monetization_on_outlined,
+                                ),
+                              ),
+                              title: Text(
+                                item.title,
+                                style: AppTextsStyles.mediumText16w500,
+                              ),
+                              subtitle: Text(
+                                DateTime.fromMillisecondsSinceEpoch(item.date)
+                                    .toString(),
+                                style: AppTextsStyles.smallText13,
+                              ),
+                              trailing: Text(
+                                value,
+                                style: AppTextsStyles.mediumText18
+                                    .apply(color: color),
+                              ),
+                            );
+                          },
+                        );
+                      }),
                 ),
               ],
             ),
