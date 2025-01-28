@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/routs.dart';
 import 'package:startcomm/features/caixa/caixa_page.dart';
 import 'package:startcomm/features/home/home_page_view.dart';
+import 'package:startcomm/features/map/map_page.dart';
+import 'package:startcomm/features/onboarding/onboarding_page.dart';
 import 'package:startcomm/features/produtos/produtos_page.dart';
 import 'package:startcomm/features/relatorio/relatorio_page.dart';
 import 'package:startcomm/features/sign_in/sign_in._page.dart';
@@ -16,6 +18,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       initialRoute: NamedRoute.splash,
       routes: {
+        NamedRoute.initial: (context) => const OnboardingPage(),
         NamedRoute.splash: (context) => const SplashPage(),
         NamedRoute.signUp: (context) => const SignUpPage(),
         NamedRoute.signIn: (context) => const SignInPage(),
@@ -26,7 +29,7 @@ class App extends StatelessWidget {
         NamedRoute.produtos: (context) => const ProdutosPage(),
         // NamedRoute.lucros: (context) => const LucrosPage(),
         // NamedRoute.despesas: (context) => const DespesasPage(),
-        // NamedRoute.mapa: (context) => const MapaPage(),
+        NamedRoute.mapa: (context) => const MapPage(),
       },
     );
   }

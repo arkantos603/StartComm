@@ -10,10 +10,6 @@ class PasswordFormField extends StatefulWidget {
   final String? labelText;
   final FormFieldValidator<String>? validator;
   final String? helperText;
-  final FocusNode? focusNode;
-  final VoidCallback? onTap;
-  final ValueSetter<PointerEvent>? onTapOutside;
-  final VoidCallback? onEditingComplete;
 
   const PasswordFormField({
     super.key,
@@ -23,10 +19,6 @@ class PasswordFormField extends StatefulWidget {
     this.labelText,
     this.validator,
     this.helperText,
-    this.focusNode,
-    this.onTap,
-    this.onTapOutside,
-    this.onEditingComplete,
   });
 
   @override
@@ -36,21 +28,9 @@ class PasswordFormField extends StatefulWidget {
 class _PasswordFormFieldState extends State<PasswordFormField> {
   bool isHidden = true;
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
-      onTap: widget.onTap,
-      onEditingComplete: widget.onEditingComplete ??
-          () {
-            FocusScope.of(context).nextFocus();
-          },
-      focusNode: widget.focusNode,
-      onTapOutside: widget.onTapOutside ??
-          (_) {
-            if (FocusScope.of(context).hasFocus) {
-              FocusScope.of(context).unfocus();
-            }
-          },
       helperText: widget.helperText,
       validator: widget.validator,
       obscureText: isHidden,
@@ -68,7 +48,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
         },
         child: Icon(
           isHidden ? Icons.visibility : Icons.visibility_off,
-          color: AppColors.luzverde2,
+          color: AppColors.greenTwo,
         ),
       ),
     );

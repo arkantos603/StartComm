@@ -17,11 +17,6 @@ class CustomTextFormField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final FormFieldValidator<String>? validator;
   final String? helperText;
-  final GestureTapCallback? onTap;
-  final bool readOnly;
-  final FocusNode? focusNode;
-  final ValueSetter<PointerEvent>? onTapOutside;
-  final VoidCallback? onEditingComplete;
 
   const CustomTextFormField({
     super.key,
@@ -38,21 +33,16 @@ class CustomTextFormField extends StatefulWidget {
     this.inputFormatters,
     this.validator,
     this.helperText,
-    this.onTap,
-    this.readOnly = false,
-    this.focusNode,
-    this.onTapOutside,
-    this.onEditingComplete,
   });
 
- @override
+  @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   final defaultBorder = const OutlineInputBorder(
     borderSide: BorderSide(
-      color: AppColors.luzverde1,
+      color: AppColors.greenOne,
     ),
   );
 
@@ -73,19 +63,6 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             vertical: 12.0,
           ),
       child: TextFormField(
-        focusNode: widget.focusNode,
-        readOnly: widget.readOnly,
-        onTap: widget.onTap,
-        onEditingComplete: widget.onEditingComplete ??
-            () {
-              FocusScope.of(context).nextFocus();
-            },
-        onTapOutside: widget.onTapOutside ??
-            (_) {
-              if (FocusScope.of(context).hasFocus) {
-                FocusScope.of(context).unfocus();
-              }
-            },
         onChanged: (value) {
           if (value.length == 1) {
             setState(() {
@@ -98,7 +75,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           }
         },
         validator: widget.validator,
-        style: AppTextsStyles.inputText.copyWith(color: AppColors.luzverde1),
+        style: AppTextStyles.inputText.copyWith(color: AppColors.greenOne),
         inputFormatters: widget.inputFormatters,
         obscureText: widget.obscureText ?? false,
         textInputAction: widget.textInputAction,
@@ -113,8 +90,25 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           helperMaxLines: 3,
           suffixIcon: widget.suffixIcon,
           hintText: widget.hintText,
+          hintStyle:
+              AppTextStyles.inputHintText.copyWith(color: AppColors.greenTwo),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           labelText: widget.labelText?.toUpperCase(),
+          labelStyle:
+              AppTextStyles.inputLabelText.copyWith(color: AppColors.grey),
+          focusedBorder: defaultBorder,
+          errorBorder: defaultBorder.copyWith(
+            borderSide: const BorderSide(
+              color: AppColors.error,
+            ),
+          ),
+          focusedErrorBorder: defaultBorder.copyWith(
+            borderSide: const BorderSide(
+              color: AppColors.error,
+            ),
+          ),
+          enabledBorder: defaultBorder,
+          disabledBorder: defaultBorder,
         ),
       ),
     );

@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:startcomm/common/models/user_model.dart';
 import 'package:startcomm/services/auth_services.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+
 
 class FirebaseAuthService implements AuthService {
   final _auth = FirebaseAuth.instance;
+  final _functions = FirebaseFunctions.instance;
+
   @override
   Future<UserModel> signIn({
     required String email,
@@ -16,10 +20,9 @@ class FirebaseAuthService implements AuthService {
       );
       if (result.user != null) {
         return UserModel(
-          name: result.user!.displayName,
-          empresa: result.user!.displayName,
-          email: result.user!.email,
-          id: result.user!.uid,
+          name: _auth.currentUser?.displayName,
+          email: _auth.currentUser?.email,
+          id: _auth.currentUser?.uid,
         );
       } else {
         throw Exception();
@@ -34,21 +37,24 @@ class FirebaseAuthService implements AuthService {
   @override
   Future<UserModel> signUp({
     String? name,
-    String? empresa,
     required String email,
     required String password,
   }) async {
     try {
-      final result = await _auth.createUserWithEmailAndPassword(
+      await _functions.httpsCallable('registerUser').call({
+        "email": email,
+        "password": password,
+        "displayName": name,
+      });
+
+      final result = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      if (_auth.currentUser != null) {
-        await result.user!.updateDisplayName(name);
-        await result.user!.updateDisplayName(empresa); //TALVEZ
+
+      if (result.user != null) {
         return UserModel(
           name: _auth.currentUser?.displayName,
-          empresa: _auth.currentUser?.displayName,
           email: _auth.currentUser?.email,
           id: _auth.currentUser?.uid,
         );
@@ -56,6 +62,8 @@ class FirebaseAuthService implements AuthService {
         throw Exception();
       }
     } on FirebaseAuthException catch (e) {
+      throw e.message ?? "null";
+    } on FirebaseFunctionsException catch (e) {
       throw e.message ?? "null";
     } catch (e) {
       rethrow;

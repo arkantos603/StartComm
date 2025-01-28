@@ -12,32 +12,30 @@ final locator = GetIt.instance;
 
 void setupDependencies() {
   locator.registerLazySingleton<AuthService>(
-    () => FirebaseAuthService()
-    );
+    () => FirebaseAuthService(),
+  );
 
   locator.registerFactory<SplashController>(
-    () => SplashController(const SecureStorageService())
-    );
+    () => SplashController(const SecureStorage()),
+  );
 
   locator.registerFactory<SignInController>(
     () => SignInController(
       locator.get<AuthService>(),
-      // const SecureStorageService()
-      ),
-    );
+      const SecureStorage(),
+    ),
+  );
 
   locator.registerFactory<SignUpController>(
     () => SignUpController(
       locator.get<AuthService>(),
-       const SecureStorageService()
-       ),
-    );
+      const SecureStorage(),
+    ),
+  );
 
   locator.registerFactory<TransactionRepository>(
-    () => TransactionRepositoryImpl()
-    );
+      () => TransactionRepositoryImpl());
 
   locator.registerLazySingleton<HomeController>(
-    () => HomeController(locator.get<TransactionRepository>())
-    );
+      () => HomeController(locator.get<TransactionRepository>()));
 }

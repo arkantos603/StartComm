@@ -4,7 +4,7 @@ final defaultTheme = ThemeData(
   inputDecorationTheme: const InputDecorationTheme(
     focusedBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.green,
+        color: Colors.red,
       ),
     ),
   ),

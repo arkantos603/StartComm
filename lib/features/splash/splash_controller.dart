@@ -3,9 +3,9 @@ import 'package:startcomm/services/secure_storage.dart';
 import 'splash_state.dart';
 
 class SplashController extends ChangeNotifier {
-  final SecureStorageService _service;
+  final SecureStorage _secureStorage;
 
-  SplashController(this._service);
+  SplashController(this._secureStorage);
 
   SplashState _state = SplashStateInitial();
 
@@ -17,12 +17,11 @@ class SplashController extends ChangeNotifier {
   }
 
   Future<void> isUserLogged() async {
-    await Future.delayed(const Duration(seconds: 1));
-    final result = await _service.readOne(key: "CURRENT_USER");
+    final result = await _secureStorage.readOne(key: "CURRENT_USER");
     if (result != null) {
-      _changeState(SplashStateSuccess());
+      _changeState(AuthenticatedUser());
     } else {
-      _changeState(SplashStateError());
+      _changeState(UnauthenticatedUser());
     }
   }
 }

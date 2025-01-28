@@ -18,7 +18,6 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
       child: Ink(
         height: 48.0,
         decoration: BoxDecoration(
@@ -27,8 +26,8 @@ class PrimaryButton extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: onPressed != null
-                ? [AppColors.iceWhite, AppColors.iceWhite]
-                : [AppColors.iceWhite, AppColors.iceWhite],
+                ? AppColors.greenGradient
+                : AppColors.greyGradient,
           ),
         ),
         child: InkWell(
@@ -37,8 +36,8 @@ class PrimaryButton extends StatelessWidget {
           child: Align(
             child: Text(
               text,
-              style: AppTextsStyles.mediumText18.copyWith(
-                color: AppColors.luzverde2,
+              style: AppTextStyles.mediumText18.copyWith(
+                color: AppColors.white,
               ),
             ),
           ),

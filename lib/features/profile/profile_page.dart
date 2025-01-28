@@ -25,9 +25,9 @@ class _ProfilePageState extends State<ProfilePage>
         TextButton(
           onPressed: () async {
             await locator.get<AuthService>().signOut();
-            await const SecureStorageService().deleteAll();
+            await const SecureStorage().deleteAll();
             if (!context.mounted) return;
-            Navigator.popUntil(context, ModalRoute.withName('/splash'));
+            Navigator.popUntil(context, ModalRoute.withName('/'));
           },
           child: const Text('Deslogar-se'),
         )

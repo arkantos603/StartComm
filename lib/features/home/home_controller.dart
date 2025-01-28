@@ -28,13 +28,4 @@ class HomeController extends ChangeNotifier {
       _changeState(HomeStateError());
     }
   }
-
-
-
-
-
-
-
-
-
 }

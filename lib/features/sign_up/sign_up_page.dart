@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
 import 'package:startcomm/common/constants/routs.dart';
-// import 'package:startcomm/common/widgets/custom_bottom_sheet.dart';
+import 'package:startcomm/common/utils/uppercase_text_formatter.dart';
+import 'package:startcomm/common/widgets/custom_bottom_sheet.dart';
 import 'package:startcomm/common/widgets/custom_circular_progress_indicator.dart';
 import 'package:startcomm/common/widgets/custom_text_form_field.dart';
 import 'package:startcomm/common/widgets/multi_text_button.dart';
 import 'package:startcomm/common/widgets/password_form_field.dart';
-import 'package:startcomm/common/widgets/secondary_button.dart';
 import 'package:startcomm/common/utils/validator.dart';
+import 'package:startcomm/common/widgets/primary_button.dart';
 import 'package:startcomm/features/sign_up/sign_up_controller.dart';
 import 'package:startcomm/features/sign_up/sign_up_state.dart';
 import 'package:startcomm/locator.dart';
@@ -24,7 +25,6 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _empresaController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _controller = locator.get<SignUpController>();
@@ -32,41 +32,43 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void dispose() {
     _nameController.dispose();
-    _empresaController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
-      if (_controller.state is SignUpStateLoading) {
-        showDialog(
-          context: context,
-          builder: (context) => const Center(
-            child: CustomCircularProgressIndicator(),
-          ),
-        );
-      }
-      if (_controller.state is SignUpStateSuccess) {
-        Navigator.pop(context);
-        Navigator.pushReplacementNamed(
-          context,
-          NamedRoute.home
+    _controller.addListener(
+      () {
+        if (_controller.state is SignUpStateLoading) {
+          showDialog(
+            context: context,
+            builder: (context) => const CustomCircularProgressIndicator(),
           );
-      }
-      if (_controller.state is SignUpStateError) {
-        // final error = (_controller.state as SignUpStateError).message;
-        Navigator.pop(context);
-        // CustomModalSheetMixin(
-        //   context,
-        //   content: error.message,
-        //   buttonText: "asd",
-        // );
-      }
-    });
+        }
+        if (_controller.state is SignUpStateSuccess) {
+          Navigator.pop(context);
+
+          Navigator.pushReplacementNamed(
+            context,
+            NamedRoute.home,
+          );
+        }
+
+        if (_controller.state is SignUpStateError) {
+          final error = _controller.state as SignUpStateError;
+          Navigator.pop(context);
+          customModalBottomSheet(
+            context,
+            content: error.message,
+            buttonText: "Tentar novamente",
+          );
+        }
+      },
+    );
   }
 
   @override
@@ -78,20 +80,20 @@ class _SignUpPageState extends State<SignUpPage> {
           Text(
             'Comece a Salvar',
             textAlign: TextAlign.center,
-            style: AppTextsStyles.mediumText36.copyWith(
-              color: AppColors.luzverde2,
+            style: AppTextStyles.mediumText36.copyWith(
+              color: AppColors.greenOne,
             ),
           ),
           Text(
-            'O seu Comercio!',
+            'O Seu Negócio',
             textAlign: TextAlign.center,
-            style: AppTextsStyles.mediumText36.copyWith(
-              color: AppColors.luzverde2,
+            style: AppTextStyles.mediumText36.copyWith(
+              color: AppColors.greenOne,
             ),
           ),
           const SizedBox(height: 16.0),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 130.0),
+            padding: const EdgeInsets.symmetric(horizontal: 100.0),
             child: Image.asset(
               'assets/images/sign_up.png',
               fit: BoxFit.contain,
@@ -104,35 +106,33 @@ class _SignUpPageState extends State<SignUpPage> {
               children: [
                 CustomTextFormField(
                   controller: _nameController,
-                  labelText: 'Seu Nome',
-                  hintText: 'Ely Miranda...',
-                  validator: Validator.validateName,
-                ),
-                CustomTextFormField(
-                  controller: _empresaController,
-                  labelText: 'Nome da sua Empresa',
-                  hintText: 'CoxinhasTop LTDA...',
+                  labelText: "Nome da Empresa",
+                  hintText: "Coxinhas Dahora...",
+                  inputFormatters: [
+                    UpperCaseTextInputFormatter(),
+                  ],
                   validator: Validator.validateName,
                 ),
                 CustomTextFormField(
                   controller: _emailController,
-                  labelText: 'Seu Email',
-                  hintText: 'exemplo@gmail.com',
+                  labelText: "Seu Email",
+                  hintText: "user@gmail.com",
                   validator: Validator.validateEmail,
                 ),
                 PasswordFormField(
                   controller: _passwordController,
                   labelText: "Digite sua senha",
-                  hintText: '********',
+                  hintText: "*********",
                   validator: Validator.validatePassword,
-                  helperText: 'Mínimo de 8 caracteres',
+                  helperText:
+                      "Sua senha deve ter pelo menos 8 digitos.",
                 ),
                 PasswordFormField(
                   labelText: "Confirme sua senha",
-                  hintText: '********',
+                  hintText: "*********",
                   validator: (value) => Validator.validateConfirmPassword(
-                    value,
                     _passwordController.text,
+                    value,
                   ),
                 ),
               ],
@@ -143,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
               horizontal: 32.0,
               vertical: 16.0,
             ),
-            child: SecondaryButton(
+            child: PrimaryButton(
               text: 'Cadastrar',
               onPressed: () {
                 final valid = _formKey.currentState != null &&
@@ -151,30 +151,31 @@ class _SignUpPageState extends State<SignUpPage> {
                 if (valid) {
                   _controller.signUp(
                     name: _nameController.text,
-                    empresa: _empresaController.text,
                     email: _emailController.text,
                     password: _passwordController.text,
                   );
                 } else {
-                  log('erro ao logar');
+                  log("erro ao logar");
                 }
               },
             ),
           ),
-          const SizedBox(height: 16.0),
           MultiTextButton(
-            onPressed: () => Navigator.popAndPushNamed(context, NamedRoute.signIn),
+            onPressed: () => Navigator.popAndPushNamed(
+              context,
+              NamedRoute.signIn,
+            ),
             children: [
               Text(
-                'Já possui uma conta?',
-                style: AppTextsStyles.smallText.copyWith(
-                  color: AppColors.blackGrey,
+                'Já possui uma conta? ',
+                style: AppTextStyles.smallText.copyWith(
+                  color: AppColors.grey,
                 ),
               ),
               Text(
-                ' Entrar',
-                style: AppTextsStyles.smallText.copyWith(
-                  color: AppColors.luzverde2,
+                'Entrar ',
+                style: AppTextStyles.smallText.copyWith(
+                  color: AppColors.greenOne,
                 ),
               ),
             ],

@@ -64,17 +64,17 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         'Olá',
-                        style: AppTextsStyles.smallText.copyWith(
+                        style: AppTextStyles.smallText.copyWith(
                           color: AppColors.white,
-                          fontSize: AppTextsStyles.smallText.fontSize! *
+                          fontSize: AppTextStyles.smallText.fontSize! *
                               textScaleFactor,
                         ),
                       ),
                       Text(
                         'Empresa',
-                        style: AppTextsStyles.mediumText20.copyWith(
+                        style: AppTextStyles.mediumText20.copyWith(
                           color: AppColors.white,
-                          fontSize: AppTextsStyles.mediumText20.fontSize! *
+                          fontSize: AppTextStyles.mediumText20.fontSize! *
                               textScaleFactor,
                         ),
                       ),
@@ -135,18 +135,18 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Text(
                             'Saldo em conta',
-                            style: AppTextsStyles.mediumText16w600.copyWith(
+                            style: AppTextStyles.mediumText16w600.copyWith(
                               color: AppColors.white,
                               fontSize:
-                                  AppTextsStyles.mediumText16w600.fontSize! *
+                                  AppTextStyles.mediumText16w600.fontSize! *
                                       textScaleFactor,
                             ),
                           ),
                           Text(
                             'R\$ 1.000,00',
-                            style: AppTextsStyles.mediumText30.copyWith(
+                            style: AppTextStyles.mediumText30.copyWith(
                               color: AppColors.white,
-                              fontSize: AppTextsStyles.mediumText30.fontSize! *
+                              fontSize: AppTextStyles.mediumText30.fontSize! *
                                   textScaleFactor,
                             ),
                           ),
@@ -208,19 +208,19 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Text(
                                 'Receitas',
-                                style: AppTextsStyles.mediumText16w500.copyWith(
+                                style: AppTextStyles.mediumText16w500.copyWith(
                                   color: AppColors.white,
-                                  fontSize: AppTextsStyles
+                                  fontSize: AppTextStyles
                                           .mediumText16w500.fontSize! *
                                       textScaleFactor,
                                 ),
                               ),
                               Text(
                                 'R\$ 1.500,00',
-                                style: AppTextsStyles.mediumText20.copyWith(
+                                style: AppTextStyles.mediumText20.copyWith(
                                   color: AppColors.white,
                                   fontSize:
-                                      AppTextsStyles.mediumText20.fontSize! *
+                                      AppTextStyles.mediumText20.fontSize! *
                                           textScaleFactor,
                                 ),
                               ),
@@ -250,19 +250,19 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Text(
                                 'Despesas',
-                                style: AppTextsStyles.mediumText16w500.copyWith(
+                                style: AppTextStyles.mediumText16w500.copyWith(
                                   color: AppColors.white,
-                                  fontSize: AppTextsStyles
+                                  fontSize: AppTextStyles
                                           .mediumText16w500.fontSize! *
                                       textScaleFactor,
                                 ),
                               ),
                               Text(
                                 'R\$ 500,00',
-                                style: AppTextsStyles.mediumText20.copyWith(
+                                style: AppTextStyles.mediumText20.copyWith(
                                   color: AppColors.outcome,
                                   fontSize:
-                                      AppTextsStyles.mediumText20.fontSize! *
+                                      AppTextStyles.mediumText20.fontSize! *
                                           textScaleFactor,
                                 ),
                               ),
@@ -290,7 +290,7 @@ class _HomePageState extends State<HomePage> {
                     children: const [
                       Text(
                         'Últimas transações',
-                        style: AppTextsStyles.mediumText18,
+                        style: AppTextStyles.mediumText18,
                       ),
                     ],
                   ),
@@ -341,16 +341,16 @@ class _HomePageState extends State<HomePage> {
                               ),
                               title: Text(
                                 item.title,
-                                style: AppTextsStyles.mediumText16w500,
+                                style: AppTextStyles.mediumText16w500,
                               ),
                               subtitle: Text(
                                 DateTime.fromMillisecondsSinceEpoch(item.date)
                                     .toString(),
-                                style: AppTextsStyles.smallText13,
+                                style: AppTextStyles.smallText13,
                               ),
                               trailing: Text(
                                 value,
-                                style: AppTextsStyles.mediumText18
+                                style: AppTextStyles.mediumText18
                                     .apply(color: color),
                               ),
                             );
