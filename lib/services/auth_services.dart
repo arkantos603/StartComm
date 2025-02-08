@@ -13,9 +13,6 @@ abstract class AuthService {
   });
 
   Future<void> signOut();
+
+  Future<bool> isAuthenticated(); // Adicione este método
 }
-
-//   Future<String> userToken();
-
-//   Future<bool> forgotPassword(String email);
-// }

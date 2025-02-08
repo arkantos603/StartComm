@@ -53,62 +53,58 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Positioned(
-              left: 24.0,
-              right: 24.0,
-              top: 74.h,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Olá',
-                        style: AppTextStyles.smallText.copyWith(
-                          color: AppColors.white,
-                          fontSize: AppTextStyles.smallText.fontSize! *
-                              textScaleFactor,
-                        ),
+            left: 24.0,
+            right: 24.0,
+            top: 74.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Olá',
+                      style: AppTextStyles.smallText.copyWith(
+                        color: AppColors.white,
+                        fontSize: AppTextStyles.smallText.fontSize! *
+                            textScaleFactor,
                       ),
-                      Text(
-                        'Empresa',
-                        style: AppTextStyles.mediumText20.copyWith(
-                          color: AppColors.white,
-                          fontSize: AppTextStyles.mediumText20.fontSize! *
-                              textScaleFactor,
-                        ),
+                    ),
+                    Text(
+                      'Empresa',
+                      style: AppTextStyles.mediumText20.copyWith(
+                        color: AppColors.white,
+                        fontSize: AppTextStyles.mediumText20.fontSize! *
+                            textScaleFactor,
                       ),
-                    ],
+                    ),
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfilePage()),
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.h,
+                      horizontal: 8.w,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                      color: AppColors.white.withAlpha((0.06 * 255).toInt()),
+                    ),
+                    child: const Icon(
+                      Icons.person_outline_rounded,
+                      color: AppColors.white,
+                    ),
                   ),
-                  GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                vertical: 8.h,
-                horizontal: 8.w,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                color: AppColors.white.withAlpha((0.06 * 255).toInt()),
-              ),
-              child: Stack(
-                alignment: const AlignmentDirectional(0.5, -0.5),
-                children: [
-                  const Icon(
-                    Icons.person_outline_rounded,
-                    color: AppColors.white,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-                ],
-              )),
           Positioned(
             left: 24.w,
             right: 24.w,
@@ -297,66 +293,67 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Expanded(
                   child: AnimatedBuilder(
-                      animation: controller,
-                      builder: (context, _) {
-                        if (controller.state is HomeStateLoading) {
-                          return const CustomCircularProgressIndicator(
-                            color: AppColors.green,
-                          );
-                        }
-                        if (controller.state is HomeStateError) {
-                          return const Center(
-                            child: Text('Erro ao carregar transações.'),
-                          );
-                        }
-                        if (controller.transactions.isEmpty) {
-                          return const Center(
-                            child: Text('Não há transações no momento.'),
-                          );
-                        }
-                        return ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          padding: EdgeInsets.zero,
-                          itemCount: controller.transactions.length,
-                          itemBuilder: (context, index) {
-                            final item = controller.transactions[index];
-
-                            final color = item.value.isNegative
-                                ? AppColors.outcome
-                                : AppColors.income;
-                            final value = "\$ ${item.value.toStringAsFixed(2)}";
-                            return ListTile(
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              leading: Container(
-                                decoration: const BoxDecoration(
-                                  color: AppColors.antiFlashWhite,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8.0)),
-                                ),
-                                padding: const EdgeInsets.all(8.0),
-                                child: const Icon(
-                                  Icons.monetization_on_outlined,
-                                ),
-                              ),
-                              title: Text(
-                                item.title,
-                                style: AppTextStyles.mediumText16w500,
-                              ),
-                              subtitle: Text(
-                                DateTime.fromMillisecondsSinceEpoch(item.date)
-                                    .toString(),
-                                style: AppTextStyles.smallText13,
-                              ),
-                              trailing: Text(
-                                value,
-                                style: AppTextStyles.mediumText18
-                                    .apply(color: color),
-                              ),
-                            );
-                          },
+                    animation: controller,
+                    builder: (context, _) {
+                      if (controller.state is HomeStateLoading) {
+                        return const CustomCircularProgressIndicator(
+                          color: AppColors.green,
                         );
-                      }),
+                      }
+                      if (controller.state is HomeStateError) {
+                        return const Center(
+                          child: Text('Erro ao carregar transações.'),
+                        );
+                      }
+                      if (controller.transactions.isEmpty) {
+                        return const Center(
+                          child: Text('Não há transações no momento.'),
+                        );
+                      }
+                      return ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        padding: EdgeInsets.zero,
+                        itemCount: controller.transactions.length,
+                        itemBuilder: (context, index) {
+                          final item = controller.transactions[index];
+
+                          final color = item.value.isNegative
+                              ? AppColors.outcome
+                              : AppColors.income;
+                          final value = "\$ ${item.value.toStringAsFixed(2)}";
+                          return ListTile(
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            leading: Container(
+                              decoration: const BoxDecoration(
+                                color: AppColors.antiFlashWhite,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8.0)),
+                              ),
+                              padding: const EdgeInsets.all(8.0),
+                              child: const Icon(
+                                Icons.monetization_on_outlined,
+                              ),
+                            ),
+                            title: Text(
+                              item.description,
+                              style: AppTextStyles.mediumText16w500,
+                            ),
+                            subtitle: Text(
+                              DateTime.fromMillisecondsSinceEpoch(item.date)
+                                  .toString(),
+                              style: AppTextStyles.smallText13,
+                            ),
+                            trailing: Text(
+                              value,
+                              style: AppTextStyles.mediumText18
+                                  .apply(color: color),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

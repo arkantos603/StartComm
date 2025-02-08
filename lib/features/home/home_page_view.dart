@@ -2,10 +2,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_colors.dart';
 import 'package:startcomm/common/widgets/custom_bottom_app_bar.dart';
-import 'package:startcomm/features/caixa/caixa_page.dart';
-import 'package:startcomm/features/home/home_page.dart';
-import 'package:startcomm/features/map/map_page.dart';
-import 'package:startcomm/features/produtos/produtos_page.dart';
+import 'package:startcomm/locator.dart';
+import 'package:startcomm/features/home/home_controller.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -15,13 +13,13 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
-  final pageController = PageController();
+  final HomeController _homeController = locator.get<HomeController>();
 
   @override
   void initState() {
     super.initState();
-    pageController.addListener(() {
-      log(pageController.page.toString());
+    _homeController.pageController.addListener(() {
+      log(_homeController.pageController.page.toString());
     });
   }
 
@@ -30,13 +28,8 @@ class _HomePageViewState extends State<HomePageView> {
     return Scaffold(
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
-        controller: pageController,
-        children: const [
-          HomePage(),
-          CaixaPage(),
-          ProdutosPage(),
-          MapPage(),
-        ],
+        controller: _homeController.pageController,
+        children: _homeController.pages,
       ),
       bottomNavigationBar: CustomBottomAppBar(
         selectedItemColor: AppColors.green,
@@ -45,25 +38,25 @@ class _HomePageViewState extends State<HomePageView> {
             label: 'home',
             primaryIcon: Icons.home,
             secondaryIcon: Icons.home_outlined,
-            onPressed: () => pageController.jumpToPage(0),
+            onPressed: () => _homeController.pageController.jumpToPage(0),
           ),
           CustomBottomAppBarItem(
             label: 'caixa',
             primaryIcon: Icons.add_shopping_cart,
             secondaryIcon: Icons.add_shopping_cart_outlined,
-            onPressed: () => pageController.jumpToPage(1),
+            onPressed: () => _homeController.pageController.jumpToPage(1),
           ),
           CustomBottomAppBarItem(
             label: 'produtos',
             primaryIcon: Icons.inventory,
             secondaryIcon: Icons.inventory_2_outlined,
-            onPressed: () => pageController.jumpToPage(2),
+            onPressed: () => _homeController.pageController.jumpToPage(2),
           ),
           CustomBottomAppBarItem(
             label: 'mapa',
             primaryIcon: Icons.map,
             secondaryIcon: Icons.map_outlined,
-            onPressed: () => pageController.jumpToPage(3),
+            onPressed: () => _homeController.pageController.jumpToPage(3),
           ),
         ],
       ),

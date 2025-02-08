@@ -8,7 +8,6 @@ class SplashController extends ChangeNotifier {
   SplashController(this._secureStorage);
 
   SplashState _state = SplashStateInitial();
-
   SplashState get state => _state;
 
   void _changeState(SplashState newState) {
@@ -17,10 +16,13 @@ class SplashController extends ChangeNotifier {
   }
 
   Future<void> isUserLogged() async {
+    debugPrint('SplashController: Checking if user is logged in');
     final result = await _secureStorage.readOne(key: "CURRENT_USER");
     if (result != null) {
+      debugPrint('SplashController: User is logged in');
       _changeState(AuthenticatedUser());
     } else {
+      debugPrint('SplashController: User is not logged in');
       _changeState(UnauthenticatedUser());
     }
   }

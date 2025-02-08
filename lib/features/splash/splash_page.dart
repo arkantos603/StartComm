@@ -31,7 +31,7 @@ class _SplashPageState extends State<SplashPage> {
           context,
           NamedRoute.home,
         );
-      } else {
+      } else if (_splashController.state is UnauthenticatedUser) {
         Navigator.pushReplacementNamed(
           context,
           NamedRoute.initial,
