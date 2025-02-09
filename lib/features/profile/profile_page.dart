@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:startcomm/locator.dart';
 import 'package:startcomm/services/auth_services.dart';
 import 'package:startcomm/services/secure_storage.dart';
+import 'package:startcomm/common/constants/app_colors.dart'; // Importar as cores
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,19 +20,33 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      body: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        const Text('Perfil'),
-        TextButton(
-          onPressed: () async {
-            await locator.get<AuthService>().signOut();
-            await const SecureStorage().deleteAll();
-            if (!context.mounted) return;
-            Navigator.popUntil(context, ModalRoute.withName('/'));
+      appBar: AppBar(
+        title: const Text('Perfil'),
+        backgroundColor: AppColors.greenTwo, // Definir a cor do AppBar
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
           },
-          child: const Text('Deslogar-se'),
-        )
-      ])),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Perfil'),
+            TextButton(
+              onPressed: () async {
+                await locator.get<AuthService>().signOut();
+                await const SecureStorage().deleteAll();
+                if (!context.mounted) return;
+                Navigator.popUntil(context, ModalRoute.withName('/'));
+              },
+              child: const Text('Deslogar-se'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

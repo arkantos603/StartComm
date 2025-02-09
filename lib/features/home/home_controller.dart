@@ -4,7 +4,7 @@ import 'package:startcomm/features/home/home_state.dart';
 import 'package:startcomm/repositories/transaction_repository.dart';
 import 'package:startcomm/features/home/home_page.dart';
 import 'package:startcomm/features/caixa/caixa_page.dart';
-import 'package:startcomm/features/produtos/produtos_page.dart';
+import 'package:startcomm/features/products/products_page.dart';
 
 class HomeController extends ChangeNotifier {
   final TransactionRepository _transactionRepository;
@@ -26,7 +26,7 @@ class HomeController extends ChangeNotifier {
     pages = [
       HomePage(),
       CaixaPage(),
-      ProdutosPage(),
+      ProductsPage(),
       // MapPage(),
     ];
   }
@@ -45,4 +45,14 @@ class HomeController extends ChangeNotifier {
       _changeState(HomeStateError());
     }
   }
+
+  double get totalIncome => _transactions
+      .where((transaction) => transaction.value > 0)
+      .fold(0.0, (sum, transaction) => sum + transaction.value);
+
+  double get totalExpense => _transactions
+      .where((transaction) => transaction.value < 0)
+      .fold(0.0, (sum, transaction) => sum + transaction.value);
+
+  double get accountBalance => totalIncome + totalExpense;
 }

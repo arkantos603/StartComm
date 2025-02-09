@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Text(
-                      'Empresa',
+                      'Bem-vindo(a) de volta!',
                       style: AppTextStyles.mediumText20.copyWith(
                         color: AppColors.white,
                         fontSize: AppTextStyles.mediumText20.fontSize! *
@@ -138,13 +138,25 @@ class _HomePageState extends State<HomePage> {
                                       textScaleFactor,
                             ),
                           ),
-                          Text(
-                            'R\$ 1.000,00',
-                            style: AppTextStyles.mediumText30.copyWith(
-                              color: AppColors.white,
-                              fontSize: AppTextStyles.mediumText30.fontSize! *
-                                  textScaleFactor,
-                            ),
+                          AnimatedBuilder(
+                            animation: controller,
+                            builder: (context, _) {
+                              final balance = controller.accountBalance;
+                              final balanceColor = balance < 0
+                                  ? AppColors.outcome
+                                  : AppColors.white;
+                              final balanceText = balance < 0
+                                  ? '-R\$ ${balance.abs().toStringAsFixed(2)}'
+                                  : 'R\$ ${balance.toStringAsFixed(2)}';
+                              return Text(
+                                balanceText,
+                                style: AppTextStyles.mediumText30.copyWith(
+                                  color: balanceColor,
+                                  fontSize: AppTextStyles.mediumText30.fontSize! *
+                                      textScaleFactor,
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -211,14 +223,19 @@ class _HomePageState extends State<HomePage> {
                                       textScaleFactor,
                                 ),
                               ),
-                              Text(
-                                'R\$ 1.500,00',
-                                style: AppTextStyles.mediumText20.copyWith(
-                                  color: AppColors.white,
-                                  fontSize:
-                                      AppTextStyles.mediumText20.fontSize! *
+                              AnimatedBuilder(
+                                animation: controller,
+                                builder: (context, _) {
+                                  return Text(
+                                    'R\$ ${controller.totalIncome.toStringAsFixed(2)}',
+                                    style: AppTextStyles.mediumText20.copyWith(
+                                      color: AppColors.white,
+                                      fontSize: AppTextStyles.mediumText20
+                                              .fontSize! *
                                           textScaleFactor,
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           )
@@ -253,14 +270,19 @@ class _HomePageState extends State<HomePage> {
                                       textScaleFactor,
                                 ),
                               ),
-                              Text(
-                                'R\$ 500,00',
-                                style: AppTextStyles.mediumText20.copyWith(
-                                  color: AppColors.outcome,
-                                  fontSize:
-                                      AppTextStyles.mediumText20.fontSize! *
+                              AnimatedBuilder(
+                                animation: controller,
+                                builder: (context, _) {
+                                  return Text(
+                                    'R\$ ${controller.totalExpense.abs().toStringAsFixed(2)}',
+                                    style: AppTextStyles.mediumText20.copyWith(
+                                      color: AppColors.outcome,
+                                      fontSize: AppTextStyles.mediumText20
+                                              .fontSize! *
                                           textScaleFactor,
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           )
@@ -310,17 +332,23 @@ class _HomePageState extends State<HomePage> {
                           child: Text('Não há transações no momento.'),
                         );
                       }
+
+                      // Ordenar as transações pela data
+                      final sortedTransactions = controller.transactions
+                        ..sort((a, b) => b.date.compareTo(a.date));
+
                       return ListView.builder(
                         physics: const BouncingScrollPhysics(),
                         padding: EdgeInsets.zero,
-                        itemCount: controller.transactions.length,
+                        itemCount: sortedTransactions.length,
                         itemBuilder: (context, index) {
-                          final item = controller.transactions[index];
+                          final item = sortedTransactions[index];
 
                           final color = item.value.isNegative
                               ? AppColors.outcome
                               : AppColors.income;
-                          final value = "\$ ${item.value.toStringAsFixed(2)}";
+                          final value = "R\$ ${item.value.toStringAsFixed(2)}";
+                          final formattedDate = DateTime.fromMillisecondsSinceEpoch(item.date).toLocal().toString().split(' ')[0]; // Formatar a data como AAAA-MM-DD
                           return ListTile(
                             contentPadding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
@@ -336,12 +364,11 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             title: Text(
-                              item.description,
+                              item.category, // Exibir a categoria do produto
                               style: AppTextStyles.mediumText16w500,
                             ),
                             subtitle: Text(
-                              DateTime.fromMillisecondsSinceEpoch(item.date)
-                                  .toString(),
+                              '${item.description} - $formattedDate', // Exibir a descrição e a data
                               style: AppTextStyles.smallText13,
                             ),
                             trailing: Text(

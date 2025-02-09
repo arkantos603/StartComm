@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
 import 'package:startcomm/common/widgets/custom_snackbar.dart';
+import 'package:startcomm/features/products/products_controller.dart';
+import 'package:startcomm/features/products/products_state.dart';
 import '../../common/constants/app_colors.dart';
 import '../../common/extensions/date_formatter.dart';
 import '../../common/extensions/sizes.dart';
@@ -29,10 +31,10 @@ class CaixaPage extends StatefulWidget {
 class _CaixaPageState extends State<CaixaPage>
     with SingleTickerProviderStateMixin, CustomSnackBar {
   final _transactionController = locator.get<TransactionController>();
+  final _productsController = locator.get<ProductsController>();
 
   final _formKey = GlobalKey<FormState>();
 
-  final _incomes = ['Venda', 'Outros'];
   final _outcomes = ['Salário', 'Contas', 'Outros'];
   DateTime? _newDate;
   bool value = false;
@@ -90,8 +92,10 @@ class _CaixaPageState extends State<CaixaPage>
         );
       }
       if (_transactionController.state is TransactionStateSuccess) {
-        Navigator.of(context).pop();
-        _showSuccessMessage(); // Mostrar mensagem de sucesso
+        if (mounted) {
+          Navigator.of(context).pop();
+          _showSuccessMessage(); // Mostrar mensagem de sucesso
+        }
       }
       if (_transactionController.state is TransactionStateError) {
         final error = _transactionController.state as TransactionStateError;
@@ -102,6 +106,8 @@ class _CaixaPageState extends State<CaixaPage>
         );
       }
     });
+
+    _productsController.loadProducts();
   }
 
   Future<void> _showSuccessMessage() async {
@@ -109,6 +115,8 @@ class _CaixaPageState extends State<CaixaPage>
     final message = isIncome
         ? 'Receita adicionada com sucesso!'
         : 'Despesa adicionada com sucesso!';
+
+    if (!mounted) return;
 
     showDialog(
       context: context,
@@ -118,8 +126,10 @@ class _CaixaPageState extends State<CaixaPage>
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Fechar o diálogo
-              Navigator.of(context).pop(true); // Navegar de volta para a HomePage
+              if (mounted) {
+                Navigator.of(context).pop(); // Fechar o diálogo
+                Navigator.of(context).pop(true); // Navegar de volta para a HomePage
+              }
             },
             child: Text('Voltar'),
           ),
@@ -137,6 +147,17 @@ class _CaixaPageState extends State<CaixaPage>
     _dateController.dispose();
     _transactionController.dispose();
     super.dispose();
+  }
+
+  void _onCategorySelected(String category) {
+    if (category == 'Outros') {
+      _amountController.updateValue(0);
+    } else if (_tabController.index == 0) {
+      final product = (_productsController.state as ProductsLoaded).products
+          .firstWhere((product) => product.name == category);
+      _amountController.updateValue(product.price);
+    }
+    _categoryController.text = category;
   }
 
   @override
@@ -178,6 +199,7 @@ class _CaixaPageState extends State<CaixaPage>
                               if (_tabController.indexIsChanging &&
                                   _categoryController.text.isNotEmpty) {
                                 _categoryController.clear();
+                                _amountController.updateValue(0);
                               }
                             },
                             tabs: [
@@ -224,25 +246,6 @@ class _CaixaPageState extends State<CaixaPage>
                       const SizedBox(height: 16.0),
                       CustomTextFormField(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        controller: _amountController,
-                        keyboardType: TextInputType.number,
-                        labelText: "Valor",
-                        hintText: "Digite um valor",
-                      ),
-                      CustomTextFormField(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        controller: _descriptionController,
-                        labelText: 'Descrição',
-                        hintText: 'Adicione uma descrição',
-                        validator: (value) {
-                          if (_descriptionController.text.isEmpty) {
-                            return 'Este campo não pode ser vazio.';
-                          }
-                          return null;
-                        },
-                      ),
-                      CustomTextFormField(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
                         controller: _categoryController,
                         readOnly: true,
                         labelText: "Categoria",
@@ -255,24 +258,37 @@ class _CaixaPageState extends State<CaixaPage>
                         },
                         onTap: () => showModalBottomSheet(
                           context: context,
-                          builder: (context) => Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: (_tabController.index == 0
-                                    ? _incomes
-                                    : _outcomes)
-                                .map(
-                                  (e) => TextButton(
-                                    onPressed: () {
-                                      _categoryController.text = e;
-                                      Navigator.pop(context);
-                                    },
-                                    child: Text(e),
-                                  ),
-                                )
-                                .toList(),
-                          ),
+                          builder: (context) {
+                            if (_productsController.state is ProductsLoaded) {
+                              final products = (_productsController.state as ProductsLoaded).products;
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: (_tabController.index == 0
+                                        ? products.map((product) => product.name).toList() + ['Outros']
+                                        : _outcomes)
+                                    .map(
+                                      (e) => TextButton(
+                                        onPressed: () {
+                                          _onCategorySelected(e);
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(e),
+                                      ),
+                                    )
+                                    .toList(),
+                              );
+                            } else {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                          },
                         ),
+                      ),
+                      CustomTextFormField(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        controller: _descriptionController,
+                        labelText: 'Descrição',
+                        hintText: 'Adicione uma descrição',
                       ),
                       CustomTextFormField(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -291,7 +307,7 @@ class _CaixaPageState extends State<CaixaPage>
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime(1970),
-                            lastDate: DateTime(2030),
+                            lastDate: DateTime(2100), // Permitir datas futuras
                           );
 
                           _newDate = _newDate != null
@@ -304,6 +320,19 @@ class _CaixaPageState extends State<CaixaPage>
 
                           _dateController.text =
                               _newDate != null ? _newDate!.toText : _date;
+                        },
+                      ),
+                      CustomTextFormField(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        controller: _amountController,
+                        keyboardType: TextInputType.number,
+                        labelText: "Valor",
+                        hintText: "Digite um valor",
+                        validator: (value) {
+                          if (_amountController.text.isEmpty) {
+                            return 'Esse campo não pode ser vazio.';
+                          }
+                          return null;
                         },
                       ),
                       const SizedBox(height: 16.0),

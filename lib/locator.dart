@@ -4,10 +4,12 @@ import 'package:startcomm/features/sign_in/sign_in_controller.dart';
 import 'package:startcomm/features/sign_up/sign_up_controller.dart';
 import 'package:startcomm/features/splash/splash_controller.dart';
 import 'package:startcomm/features/caixa/transaction_controller.dart';
+import 'package:startcomm/repositories/products_repository.dart';
 import 'package:startcomm/repositories/transaction_repository.dart';
 import 'package:startcomm/services/auth_services.dart';
 import 'package:startcomm/services/firebase_auth_services.dart';
 import 'package:startcomm/services/secure_storage.dart';
+import 'package:startcomm/features/products/products_controller.dart';
 
 final locator = GetIt.instance;
 
@@ -46,6 +48,16 @@ void setupDependencies() {
   // Registrar TransactionRepository
   locator.registerFactory<TransactionRepository>(
     () => TransactionRepositoryImpl(),
+  );
+
+  // Registrar ProductRepository
+  locator.registerLazySingleton<ProductRepository>(
+    () => ProductRepository(),
+  );
+
+  // Registrar ProductsController
+  locator.registerFactory<ProductsController>(
+    () => ProductsController(locator.get<ProductRepository>()),
   );
 
   // Registrar HomeController
