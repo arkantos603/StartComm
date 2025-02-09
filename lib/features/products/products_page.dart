@@ -10,6 +10,7 @@ import '../../locator.dart';
 import 'products_controller.dart';
 import 'products_state.dart';
 import 'products_edit/products_edit_page.dart';
+import 'package:startcomm/repositories/ingredient_repository.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -20,6 +21,7 @@ class ProductsPage extends StatefulWidget {
 
 class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
   final _productsController = locator.get<ProductsController>();
+  final _ingredientRepository = locator.get<IngredientRepository>();
   final _formKey = GlobalKey<FormState>();
   final _priceController = MoneyMaskedTextController(
     decimalSeparator: ',',
@@ -134,6 +136,7 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
   }
 
   void _deleteProduct(String productId) async {
+    await _ingredientRepository.deleteIngredientsByProductId(productId);
     await _productsController.deleteProduct(productId);
     if (mounted) {
       setState(() {});

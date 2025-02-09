@@ -34,4 +34,26 @@ class IngredientRepository {
     }
     return _ingredients;
   }
+
+  Future<List<IngredientModel>> getIngredientsByProductId(String productId) async {
+    final querySnapshot = await _firestore
+        .collection('ingredients')
+        .where('productId', isEqualTo: productId)
+        .get();
+    return querySnapshot.docs
+        .map((doc) => IngredientModel.fromMap(doc.data(), doc.id))
+        .toList();
+  }
+
+  Future<void> deleteIngredientsByProductId(String productId) async {
+    final batch = _firestore.batch();
+    final querySnapshot = await _firestore
+        .collection('ingredients')
+        .where('productId', isEqualTo: productId)
+        .get();
+    for (var doc in querySnapshot.docs) {
+      batch.delete(doc.reference);
+    }
+    await batch.commit();
+  }
 }
