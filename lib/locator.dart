@@ -6,6 +6,7 @@ import 'package:startcomm/features/splash/splash_controller.dart';
 import 'package:startcomm/features/caixa/transaction_controller.dart';
 import 'package:startcomm/repositories/products_repository.dart';
 import 'package:startcomm/repositories/transaction_repository.dart';
+import 'package:startcomm/repositories/ingredient_repository.dart';
 import 'package:startcomm/services/auth_services.dart';
 import 'package:startcomm/services/firebase_auth_services.dart';
 import 'package:startcomm/services/secure_storage.dart';
@@ -58,6 +59,11 @@ void setupDependencies() {
   // Registrar ProductsController
   locator.registerFactory<ProductsController>(
     () => ProductsController(locator.get<ProductRepository>()),
+  );
+
+  // Registrar IngredientRepository
+  locator.registerLazySingleton<IngredientRepository>(
+    () => IngredientRepository(),
   );
 
   // Registrar HomeController

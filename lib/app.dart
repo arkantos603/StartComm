@@ -5,7 +5,7 @@ import 'package:startcomm/features/caixa/caixa_page.dart';
 import 'package:startcomm/features/home/home_page_view.dart';
 // import 'package:startcomm/features/map/map_page.dart';
 import 'package:startcomm/features/onboarding/onboarding_page.dart';
-import 'package:startcomm/features/products/products_edit_page.dart';
+import 'package:startcomm/features/products/products_edit/products_edit_page.dart';
 import 'package:startcomm/features/products/products_page.dart';
 import 'package:startcomm/features/profile/profile_page.dart';
 import 'package:startcomm/features/relatorio/relatorio_page.dart';

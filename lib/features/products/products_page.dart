@@ -9,7 +9,7 @@ import '../../common/widgets/app_header.dart';
 import '../../locator.dart';
 import 'products_controller.dart';
 import 'products_state.dart';
-import 'products_edit_page.dart';
+import 'products_edit/products_edit_page.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
