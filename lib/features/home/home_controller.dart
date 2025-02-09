@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/models/transaction_model.dart';
 import 'package:startcomm/features/home/home_state.dart';
+import 'package:startcomm/features/map/map_page.dart';
 import 'package:startcomm/repositories/transaction_repository.dart';
 import 'package:startcomm/features/home/home_page.dart';
 import 'package:startcomm/features/caixa/caixa_page.dart';
@@ -27,7 +28,7 @@ class HomeController extends ChangeNotifier {
       HomePage(),
       CaixaPage(),
       ProductsPage(),
-      // MapPage(),
+      MapPage(),
     ];
   }
 

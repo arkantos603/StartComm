@@ -96,7 +96,7 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
                     ),
                   );
                 },
-                child: Text('Edição Avançada'),
+                child: Text('Add Ingrediente'),
               ),
               TextButton(
                 onPressed: () {

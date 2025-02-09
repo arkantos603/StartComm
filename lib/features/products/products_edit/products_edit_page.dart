@@ -175,7 +175,7 @@ class _ProductsEditPageState extends State<ProductsEditPage> {
         body: Stack(
           children: [
             AppHeader(
-              title: 'Edição Avançada',
+              title: 'Ingredientes',
             ),
             Positioned(
               top: 120.h,
