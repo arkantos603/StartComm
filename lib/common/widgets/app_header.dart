@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
 import 'package:startcomm/features/profile/profile_page.dart';
-import '../../features/home/widgets/greetings_widget.dart';
+import 'greetings_widget.dart';
 import '../constants/app_colors.dart';
 import '../extensions/sizes.dart';
 

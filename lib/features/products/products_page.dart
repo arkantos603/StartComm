@@ -9,6 +9,7 @@ import '../../common/widgets/app_header.dart';
 import '../../locator.dart';
 import 'products_controller.dart';
 import 'products_state.dart';
+import 'products_edit_page.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -82,35 +83,50 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
           ),
         ),
         actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                final name = _productsController.nameController.text;
-                final price = _priceController.numberValue;
-                if (name.isNotEmpty && price > 0) {
-                  final updatedProduct = ProductModel(
-                    id: product.id,
-                    name: name,
-                    price: price,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProductsEditPage(product: product),
+                    ),
                   );
-                  final currentContext = context;
-                  await _productsController.updateProduct(updatedProduct);
-                  if (mounted) {
-                    setState(() {});
-                    if (currentContext.mounted) {
-                      Navigator.of(currentContext).pop();
+                },
+                child: Text('Edição Avançada'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    final name = _productsController.nameController.text;
+                    final price = _priceController.numberValue;
+                    if (name.isNotEmpty && price > 0) {
+                      final updatedProduct = ProductModel(
+                        id: product.id,
+                        name: name,
+                        price: price,
+                      );
+                      final currentContext = context;
+                      await _productsController.updateProduct(updatedProduct);
+                      if (mounted) {
+                        setState(() {});
+                        if (currentContext.mounted) {
+                          Navigator.of(currentContext).pop();
+                        }
+                      }
                     }
                   }
-                }
-              }
-            },
-            child: Text('Salvar'),
+                },
+                child: Text('Salvar'),
+              ),
+            ],
           ),
         ],
       ),
@@ -218,6 +234,7 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
               child: Column(
                 children: [
                   SizedBox(
+                    width: 200, // Defina a largura desejada aqui
                     child: PrimaryButton(
                       text: 'Adicionar Produto',
                       onPressed: _addProduct,

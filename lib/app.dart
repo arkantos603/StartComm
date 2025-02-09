@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/routs.dart';
+import 'package:startcomm/common/models/products_model.dart';
 import 'package:startcomm/features/caixa/caixa_page.dart';
 import 'package:startcomm/features/home/home_page_view.dart';
 // import 'package:startcomm/features/map/map_page.dart';
 import 'package:startcomm/features/onboarding/onboarding_page.dart';
+import 'package:startcomm/features/products/products_edit_page.dart';
 import 'package:startcomm/features/products/products_page.dart';
+import 'package:startcomm/features/profile/profile_page.dart';
 import 'package:startcomm/features/relatorio/relatorio_page.dart';
 import 'package:startcomm/features/sign_in/sign_in._page.dart';
 import 'package:startcomm/features/sign_up/sign_up_page.dart';
@@ -25,10 +28,9 @@ class App extends StatelessWidget {
         NamedRoute.home: (context) => const HomePageView(),
         NamedRoute.caixa: (context) => const CaixaPage(),
         NamedRoute.relatorio: (context) => const RelatorioPage(),
-        // NamedRoute.profile: (context) => const ProfilePage(),
+        NamedRoute.profile: (context) => const ProfilePage(),
         NamedRoute.produtos: (context) => const ProductsPage(),
-        // NamedRoute.lucros: (context) => const LucrosPage(),
-        // NamedRoute.despesas: (context) => const DespesasPage(),
+        NamedRoute.produtosEdit: (context) => ProductsEditPage(product: ModalRoute.of(context)!.settings.arguments as ProductModel),
         // NamedRoute.mapa: (context) => const MapPage(),
       },
     );

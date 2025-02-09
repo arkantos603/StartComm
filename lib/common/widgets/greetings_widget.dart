@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:startcomm/common/constants/app_texts.dart';
-import '../../../common/constants/app_colors.dart';
+import '../constants/app_colors.dart';
 
 class GreetingsWidget extends StatelessWidget {
   const GreetingsWidget({

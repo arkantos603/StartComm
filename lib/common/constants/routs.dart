@@ -10,7 +10,6 @@ class NamedRoute {
   static const String relatorio = "/relatorio";
   static const String profile = "/profile";
   static const String produtos = "/produtos";
-  static const String lucros = "/lucros";
-  static const String despesas = "/despesas";
+  static const String produtosEdit = "/produtos_edit";
   static const String mapa = "/map";
 }
