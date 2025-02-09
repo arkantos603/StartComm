@@ -50,7 +50,7 @@ class ProductsController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _productRepository.removeProduct(productId);
+      await _productRepository.deleteProduct(productId);
       _state = ProductsLoaded(_productRepository.products);
     } catch (e) {
       _state = ProductsError(e.toString());
@@ -64,19 +64,12 @@ class ProductsController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _productRepository.loadProducts();
-      _state = ProductsLoaded(_productRepository.products);
+      final products = await _productRepository.getProducts();
+      _state = ProductsLoaded(products);
     } catch (e) {
       _state = ProductsError(e.toString());
     }
 
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _priceController.dispose();
-    super.dispose();
   }
 }

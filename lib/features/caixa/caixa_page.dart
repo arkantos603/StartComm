@@ -107,6 +107,7 @@ class _CaixaPageState extends State<CaixaPage>
       }
     });
 
+    _productsController.addListener(_onProductsStateChanged);
     _productsController.loadProducts();
   }
 
@@ -146,7 +147,14 @@ class _CaixaPageState extends State<CaixaPage>
     _categoryController.dispose();
     _dateController.dispose();
     _transactionController.dispose();
+    _productsController.removeListener(_onProductsStateChanged);
     super.dispose();
+  }
+
+  void _onProductsStateChanged() {
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _onCategorySelected(String category) {

@@ -333,9 +333,9 @@ class _HomePageState extends State<HomePage> {
                         );
                       }
 
-                      // Ordenar as transações pela data
+                      // Ordenar as transações pela data de criação
                       final sortedTransactions = controller.transactions
-                        ..sort((a, b) => b.date.compareTo(a.date));
+                        ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
                       return ListView.builder(
                         physics: const BouncingScrollPhysics(),

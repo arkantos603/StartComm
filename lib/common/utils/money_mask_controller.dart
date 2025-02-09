@@ -68,7 +68,7 @@ class MoneyMaskedTextController extends TextEditingController {
     bool rightSymbolHasNumbers = _getOnlyNumbers(suffix).isNotEmpty;
 
     if (rightSymbolHasNumbers) {
-      throw ArgumentError("rightSymbol must not have numbers.");
+      throw ArgumentError("suffix must not have numbers.");
     }
   }
 

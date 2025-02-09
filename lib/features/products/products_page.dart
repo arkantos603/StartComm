@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:startcomm/common/extensions/sizes.dart';
 import 'package:startcomm/common/widgets/custom_snackbar.dart';
 import 'package:startcomm/common/widgets/primary_button.dart';
+import 'package:startcomm/common/utils/money_mask_controller.dart';
 import '../../common/constants/app_colors.dart';
 import '../../common/models/products_model.dart';
 import '../../common/widgets/app_header.dart';
@@ -18,6 +19,12 @@ class ProductsPage extends StatefulWidget {
 
 class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
   final _productsController = locator.get<ProductsController>();
+  final _formKey = GlobalKey<FormState>();
+  final _priceController = MoneyMaskedTextController(
+    decimalSeparator: ',',
+    thousandSeparator: '.',
+    prefix: 'R\$ ',
+  );
 
   @override
   void initState() {
@@ -40,24 +47,39 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
 
   void _editProduct(ProductModel product) {
     _productsController.nameController.text = product.name;
-    _productsController.priceController.text = product.price.toString();
+    _priceController.updateValue(product.price);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Editar Produto'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _productsController.nameController,
-              decoration: InputDecoration(labelText: 'Nome do Produto'),
-            ),
-            TextField(
-              controller: _productsController.priceController,
-              decoration: InputDecoration(labelText: 'Preço'),
-              keyboardType: TextInputType.number,
-            ),
-          ],
+        content: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _productsController.nameController,
+                decoration: InputDecoration(labelText: 'Nome do Produto'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Esse campo não pode ser vazio.';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _priceController,
+                decoration: InputDecoration(labelText: 'Preço'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (_priceController.numberValue <= 0) {
+                    return 'Esse campo não pode ser vazio.';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -68,20 +90,22 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
           ),
           TextButton(
             onPressed: () async {
-              final name = _productsController.nameController.text;
-              final price = double.tryParse(_productsController.priceController.text) ?? 0.0;
-              if (name.isNotEmpty && price > 0) {
-                final updatedProduct = ProductModel(
-                  id: product.id,
-                  name: name,
-                  price: price,
-                );
-                final currentContext = context;
-                await _productsController.updateProduct(updatedProduct);
-                if (mounted) {
-                  setState(() {});
-                  if (currentContext.mounted) {
-                    Navigator.of(currentContext).pop();
+              if (_formKey.currentState!.validate()) {
+                final name = _productsController.nameController.text;
+                final price = _priceController.numberValue;
+                if (name.isNotEmpty && price > 0) {
+                  final updatedProduct = ProductModel(
+                    id: product.id,
+                    name: name,
+                    price: price,
+                  );
+                  final currentContext = context;
+                  await _productsController.updateProduct(updatedProduct);
+                  if (mounted) {
+                    setState(() {});
+                    if (currentContext.mounted) {
+                      Navigator.of(currentContext).pop();
+                    }
                   }
                 }
               }
@@ -102,24 +126,39 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
 
   void _addProduct() {
     _productsController.nameController.clear();
-    _productsController.priceController.clear();
+    _priceController.updateValue(0);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text('Adicionar Produto'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _productsController.nameController,
-              decoration: InputDecoration(labelText: 'Nome do Produto'),
-            ),
-            TextField(
-              controller: _productsController.priceController,
-              decoration: InputDecoration(labelText: 'Preço'),
-              keyboardType: TextInputType.number,
-            ),
-          ],
+        content: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _productsController.nameController,
+                decoration: InputDecoration(labelText: 'Nome do Produto'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Esse campo não pode ser vazio.';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _priceController,
+                decoration: InputDecoration(labelText: 'Preço'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (_priceController.numberValue <= 0) {
+                    return 'Esse campo não pode ser vazio.';
+                  }
+                  return null;
+                },
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -131,20 +170,22 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
           PrimaryButton(
             text: 'Adicionar',
             onPressed: () async {
-              final name = _productsController.nameController.text;
-              final price = double.tryParse(_productsController.priceController.text) ?? 0.0;
-              if (name.isNotEmpty && price > 0) {
-                final newProduct = ProductModel(
-                  id: DateTime.now().millisecondsSinceEpoch.toString(), // Gerar um ID único
-                  name: name,
-                  price: price,
-                );
-                final currentContext = context;
-                await _productsController.addProduct(newProduct);
-                if (mounted) {
-                  setState(() {});
-                  if (currentContext.mounted) {
-                    Navigator.of(currentContext).pop();
+              if (_formKey.currentState!.validate()) {
+                final name = _productsController.nameController.text;
+                final price = _priceController.numberValue;
+                if (name.isNotEmpty && price > 0) {
+                  final newProduct = ProductModel(
+                    id: DateTime.now().millisecondsSinceEpoch.toString(), // Gerar um ID único
+                    name: name,
+                    price: price,
+                  );
+                  final currentContext = context;
+                  await _productsController.addProduct(newProduct);
+                  if (mounted) {
+                    setState(() {});
+                    if (currentContext.mounted) {
+                      Navigator.of(currentContext).pop();
+                    }
                   }
                 }
               }
@@ -176,9 +217,11 @@ class _ProductsPageState extends State<ProductsPage> with CustomSnackBar {
               ),
               child: Column(
                 children: [
-                  PrimaryButton(
-                    text: 'Adicionar Produto',
-                    onPressed: _addProduct,
+                  SizedBox(
+                    child: PrimaryButton(
+                      text: 'Adicionar Produto',
+                      onPressed: _addProduct,
+                    ),
                   ),
                   const SizedBox(height: 16.0),
                   Expanded(

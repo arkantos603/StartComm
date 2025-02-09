@@ -21,9 +21,18 @@ class ProductRepository {
     }
   }
 
-  Future<void> removeProduct(String id) async {
+  Future<void> deleteProduct(String id) async {
     _products.removeWhere((product) => product.id == id);
     await _firestore.collection('products').doc(id).delete();
+  }
+
+  Future<List<ProductModel>> getProducts() async {
+    final querySnapshot = await _firestore.collection('products').get();
+    _products.clear();
+    for (var doc in querySnapshot.docs) {
+      _products.add(ProductModel.fromMap(doc.data(), doc.id));
+    }
+    return _products;
   }
 
   Future<void> loadProducts() async {
